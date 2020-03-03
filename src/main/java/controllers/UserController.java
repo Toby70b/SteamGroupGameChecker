@@ -26,7 +26,6 @@ public class UserController {
 
     private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
     private static final int MULTIPLAYER_ID = 1;
-    private static final String 
     private GameService gameService;
     private UserService userService;
 
@@ -67,6 +66,7 @@ public class UserController {
 
     private boolean isMultiplayer(Integer gameId) throws IOException {
         Game game = gameService.findGameById(gameId);
+
 
         if(game.isMultiplayer()!=null){
             return game.isMultiplayer();
