@@ -1,9 +1,9 @@
-package services;
+package com.example.demo.services;
 
 import lombok.RequiredArgsConstructor;
-import models.User;
+import com.example.demo.models.User;
 import org.springframework.stereotype.Service;
-import repositories.UserRepository;
+import com.example.demo.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor

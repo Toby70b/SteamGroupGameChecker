@@ -1,6 +1,6 @@
 package customAssertions;
 
-import models.User;
+import com.example.demo.models.User;
 import org.assertj.core.api.AbstractAssert;
 
 public class UserAssert extends AbstractAssert<UserAssert, User> {
