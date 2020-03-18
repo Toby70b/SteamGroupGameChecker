@@ -1,4 +1,4 @@
-package utils;
+package com.example.demo.utils;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;

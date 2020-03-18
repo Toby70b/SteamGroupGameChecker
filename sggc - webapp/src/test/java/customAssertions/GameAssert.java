@@ -1,6 +1,6 @@
 package customAssertions;
 
-import models.Game;
+import com.example.demo.models.Game;
 import org.assertj.core.api.AbstractAssert;
 
 public class GameAssert extends AbstractAssert<GameAssert, Game> {

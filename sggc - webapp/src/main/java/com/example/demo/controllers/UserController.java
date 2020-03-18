@@ -1,17 +1,17 @@
-package controllers;
+package com.example.demo.controllers;
 
-import models.Game;
-import models.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import com.example.demo.models.Game;
+import com.example.demo.models.User;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import services.GameService;
-import services.UserService;
-import utils.GsonParser;
-import utils.HttpRequestCreator;
+import com.example.demo.services.GameService;
+import com.example.demo.services.UserService;
+import com.example.demo.utils.GsonParser;
+import com.example.demo.utils.HttpRequestCreator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,19 +21,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
-@ComponentScan(basePackages = {"services"} )
+@ComponentScan(basePackages = {"com.example.demo.services"} )
+@RequiredArgsConstructor
 public class UserController {
 
     private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
     private static final int MULTIPLAYER_ID = 1;
-    private GameService gameService;
-    private UserService userService;
-
-    @Autowired
-    public UserController(GameService gameService, UserService userService){
-        this.gameService = gameService;
-        this.userService = userService;
-    }
+    private final GameService gameService;
+    private final UserService userService;
 
     @CrossOrigin
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)

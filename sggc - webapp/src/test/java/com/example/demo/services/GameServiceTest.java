@@ -1,6 +1,6 @@
-package services;
+package com.example.demo.services;
 
-import models.Game;
+import com.example.demo.models.Game;
 import static customAssertions.GameAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,14 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import repositories.GameRepository;
-import utils.GsonParser;
-import utils.HttpRequestCreator;
+import com.example.demo.repositories.GameRepository;
+import com.example.demo.utils.GsonParser;
+import com.example.demo.utils.HttpRequestCreator;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

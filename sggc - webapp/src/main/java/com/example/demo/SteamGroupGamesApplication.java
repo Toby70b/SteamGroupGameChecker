@@ -1,30 +1,24 @@
 package com.example.demo;
 
-import models.Game;
+import com.example.demo.models.Game;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import repositories.GameRepository;
-import services.GameService;
+import com.example.demo.repositories.GameRepository;
+import com.example.demo.services.GameService;
 
 import java.util.List;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"controllers"} )
-@EnableJpaRepositories(basePackages = {"repositories"})
-@EntityScan(basePackages = {"models"})
-public class DemoApplication {
+public class SteamGroupGamesApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(SteamGroupGamesApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(SteamGroupGamesApplication.class, args);
     }
 
     //Load the list of apps into the game repository on load

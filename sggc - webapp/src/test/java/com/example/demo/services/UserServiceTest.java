@@ -1,13 +1,13 @@
-package services;
+package com.example.demo.services;
 
-import models.User;
+import com.example.demo.models.User;
 import static customAssertions.UserAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import repositories.UserRepository;
+import com.example.demo.repositories.UserRepository;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;

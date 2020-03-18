@@ -1,9 +1,8 @@
-package models;
+package com.example.demo.models;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
