@@ -14,3 +14,5 @@ I belong to a group of 5-6 20 something friends whose primary hobby is gaming, a
 
 ## Things to improve
 
+## Thanks to
+
