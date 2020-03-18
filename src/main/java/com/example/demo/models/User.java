@@ -12,7 +12,8 @@ public class User {
     @ElementCollection
     private List<Integer> ownedGameIds;
 
-    protected User() {}
+    protected User() {
+    }
 
     public User(String id, List<Integer> ownedGameIds) {
         this.id = id;

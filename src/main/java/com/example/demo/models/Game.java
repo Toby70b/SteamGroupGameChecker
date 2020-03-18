@@ -1,4 +1,5 @@
 package com.example.demo.models;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,7 +15,8 @@ public class Game {
         this.name = name;
     }
 
-    protected Game() {}
+    protected Game() {
+    }
 
     public Boolean isMultiplayer() {
         return multiplayer;
@@ -31,6 +33,7 @@ public class Game {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -38,7 +41,6 @@ public class Game {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
 }

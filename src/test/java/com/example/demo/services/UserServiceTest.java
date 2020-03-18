@@ -1,13 +1,16 @@
 package com.example.demo.services;
 
 import com.example.demo.models.User;
+
 import static customAssertions.UserAssert.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.example.demo.repositories.UserRepository;
+
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,18 +35,19 @@ public class UserServiceTest {
 
     @Test
     void savedUserHasCorrectDetailsSaved() {
-        User user = new User(TOBY_STEAM_ID, Arrays.asList(1,2,3));
+        User user = new User(TOBY_STEAM_ID, Arrays.asList(1, 2, 3));
         when(userRepository.save(any(User.class))).then(returnsFirstArg());
         User savedUser = userService.save(user);
         assertThat(savedUser).hasDetails();
 
     }
+
     @Test
-    void savedUserCanBeFoundSuccessfully(){
-        User user = new User(TOBY_STEAM_ID, Arrays.asList(1,2,3));
+    void savedUserCanBeFoundSuccessfully() {
+        User user = new User(TOBY_STEAM_ID, Arrays.asList(1, 2, 3));
         when(userRepository.findById(TOBY_STEAM_ID)).thenReturn(user);
         User foundUser = userService.findUserById(TOBY_STEAM_ID);
         assertThat(TOBY_STEAM_ID).isEqualTo(foundUser.getId());
-        assertThat(Arrays.asList(1,2,3)).isEqualTo(foundUser.getOwnedGameIds());
+        assertThat(Arrays.asList(1, 2, 3)).isEqualTo(foundUser.getOwnedGameIds());
     }
 }

@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Game;
+
 import static customAssertions.GameAssert.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,49 +29,49 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @ExtendWith(MockitoExtension.class)
 public class GameServiceTest {
 
-     @Mock
-     private GameRepository gameRepository;
-     @Mock
-     private HttpRequestCreator requestCreator;
-     @Mock
-     private GsonParser gsonParser;
-     @InjectMocks
-     private GameService gameService;
-     private static final int ID = 100;
-     private static final List<Game> GAME_LIST_RESPONSE = Arrays.asList(new Game(1101190,"Dungeon Defenders: Awakened"),
-                                                                       new Game(1122100,"Giraffe and Annika"),
-                                                                       new Game(1053190,"Lover Bands"));
+    private static final int ID = 100;
+    private static final List<Game> GAME_LIST_RESPONSE = Arrays.asList(new Game(1101190, "Dungeon Defenders: Awakened"),
+            new Game(1122100, "Giraffe and Annika"),
+            new Game(1053190, "Lover Bands"));
+    @Mock
+    private GameRepository gameRepository;
+    @Mock
+    private HttpRequestCreator requestCreator;
+    @Mock
+    private GsonParser gsonParser;
+    @InjectMocks
+    private GameService gameService;
 
-     @BeforeEach
-     void initUseCase() {
-          gameService = new GameService(gameRepository);
-     }
+    @BeforeEach
+    void initUseCase() {
+        gameService = new GameService(gameRepository);
+    }
 
-     @Test
-     void saveMultipleGamesToDbWorkCorrectly() throws IOException {
+    @Test
+    void saveMultipleGamesToDbWorkCorrectly() throws IOException {
 
-          final ArgumentCaptor<Game> captor = ArgumentCaptor.forClass(Game.class);
-          initMocks(this);
-          when(requestCreator.getAll()).thenReturn("");
-          when(gsonParser.parseGameList(any(String.class))).thenReturn(GAME_LIST_RESPONSE);
-          assertThat(gameService.saveAllGamesToDB()).isEqualTo(GAME_LIST_RESPONSE);
-     }
+        final ArgumentCaptor<Game> captor = ArgumentCaptor.forClass(Game.class);
+        initMocks(this);
+        when(requestCreator.getAll()).thenReturn("");
+        when(gsonParser.parseGameList(any(String.class))).thenReturn(GAME_LIST_RESPONSE);
+        assertThat(gameService.saveAllGamesToDB()).isEqualTo(GAME_LIST_RESPONSE);
+    }
 
-     @Test
-     void savedGameHasCorrectDetailsSaved() {
-          Game game = new Game(ID, "name");
-          when(gameRepository.save(any(Game.class))).then(returnsFirstArg());
-          Game savedGame = gameService.save(game);
-          assertThat(game).hasDetails();
-     }
+    @Test
+    void savedGameHasCorrectDetailsSaved() {
+        Game game = new Game(ID, "name");
+        when(gameRepository.save(any(Game.class))).then(returnsFirstArg());
+        Game savedGame = gameService.save(game);
+        assertThat(game).hasDetails();
+    }
 
-     @Test
-     void savedGameCanBeFoundSuccessfully(){
-          Game game = new Game(ID, "name");
-          when(gameRepository.findById(ID)).thenReturn(game);
-          Game foundGame = gameService.findGameById(ID);
-          assertThat(ID).isEqualTo(foundGame.getId());
-          assertThat("name").isEqualTo(foundGame.getName());
-     }
+    @Test
+    void savedGameCanBeFoundSuccessfully() {
+        Game game = new Game(ID, "name");
+        when(gameRepository.findById(ID)).thenReturn(game);
+        Game foundGame = gameService.findGameById(ID);
+        assertThat(ID).isEqualTo(foundGame.getId());
+        assertThat("name").isEqualTo(foundGame.getName());
+    }
 }
 

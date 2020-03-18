@@ -12,11 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GsonParser {
+    private static final int MULTIPLAYER_ID = 1;
     private List<Game> gameList;
     private ArrayList<Integer> gameIdList;
-    private static final int MULTIPLAYER_ID = 1;
 
-    public List<Game> parseGameList(String stringToParse)  {
+    public List<Game> parseGameList(String stringToParse) {
         JsonElement jsonTree = JsonParser.parseString(stringToParse);
         JsonObject obj = jsonTree.getAsJsonObject();
         obj = obj.getAsJsonObject("applist");
@@ -48,7 +48,7 @@ public class GsonParser {
         return gameIdList;
     }
 
-    public List<Integer> parseGameDetailsList(String stringToParse){
+    public List<Integer> parseGameDetailsList(String stringToParse) {
         JsonElement jsonTree = JsonParser.parseString(stringToParse);
         JsonObject obj = jsonTree.getAsJsonObject();
         // The root of the response is a id of the game thus get the responses root value
@@ -59,7 +59,7 @@ public class GsonParser {
             in question messed up and created a new steam product for the exact same game, so to avoid crashing if the game no longer
             has any details, we'll pass it through as a multiplayer game, better than excluding games that could be multiplayer
         */
-        if (!(Boolean.parseBoolean(obj.get("success").toString()))){
+        if (!(Boolean.parseBoolean(obj.get("success").toString()))) {
             return Arrays.asList(MULTIPLAYER_ID);
         }
 

@@ -28,7 +28,7 @@ public class SteamGroupGamesApplication {
             GameService gameService = new GameService(repository);
             log.info("Make Get Request for all Steam games");
             List<Game> gamesList = gameService.saveAllGamesToDB();
-            System.out.println(gamesList.size()+" games saved");
+            System.out.println(gamesList.size() + " games saved");
 
         };
     }

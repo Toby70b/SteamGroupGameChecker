@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
-@ComponentScan(basePackages = {"com.example.demo.services"} )
+@ComponentScan(basePackages = {"com.example.demo.services"})
 @RequiredArgsConstructor
 public class UserController {
 
@@ -32,7 +32,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Map<String,List<String>> request) throws IOException {
+    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Map<String, List<String>> request) throws IOException {
         try {
             List<String> userIds = request.get("steamIds");
             //Create combined list from first users games list then remove them from the list so not to process them again
@@ -41,8 +41,7 @@ public class UserController {
             combinedGameIds = getIdsOfGamesOwnedByAllUsers(combinedGameIds, userIds);
             List<Integer> combinedMultiplayerGameIds = removeNonMultiplayerGamesFromList(combinedGameIds);
             return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,19 +62,18 @@ public class UserController {
         Game game = gameService.findGameById(gameId);
 
 
-        if(game.isMultiplayer()!=null){
+        if (game.isMultiplayer() != null) {
             return game.isMultiplayer();
-        }
-        else{
+        } else {
             //Make an api call for the gameId
-            String URI = "http://store.steampowered.com/api/appdetails/?appids="+gameId;
+            String URI = "http://store.steampowered.com/api/appdetails/?appids=" + gameId;
             //Create the request
             HttpRequestCreator requestCreator = new HttpRequestCreator(URI);
             //Parse the response to get list of categories
             List<Integer> categoryIds = new GsonParser().parseGameDetailsList(requestCreator.getAll());
             //Check for presence of multiplayer category
-            for(int i : categoryIds){
-                if(i == MULTIPLAYER_ID){
+            for (int i : categoryIds) {
+                if (i == MULTIPLAYER_ID) {
                     game.setMultiplayer(true);
                     gameService.save(game);
                     return true;
@@ -93,15 +91,14 @@ public class UserController {
         List<Integer> combinedGameIdsCopy = new ArrayList<>(combinedGameIds);
         for (String userId : userIds) {
             //If the users owned game ids have been saved, get them from the repo, dont make another api call
-            if(userService.findUserById(userId)!=null){
+            if (userService.findUserById(userId) != null) {
                 List<Integer> usersOwnedGameIds = userService.findUserById(userId).getOwnedGameIds();
                 combinedGameIdsCopy.removeIf(gameId -> !usersOwnedGameIds.contains(gameId));
-            }
-            else {
+            } else {
                 List<Integer> usersOwnedGameIds = getUsersOwnedGameIds(userId);
                 combinedGameIdsCopy.removeIf(gameId -> !usersOwnedGameIds.contains(gameId));
                 // save the user to the repo to save on api calls
-                userService.save(new User(userId,usersOwnedGameIds));
+                userService.save(new User(userId, usersOwnedGameIds));
             }
         }
         return combinedGameIdsCopy;
@@ -109,15 +106,15 @@ public class UserController {
 
     private List<Integer> getUsersOwnedGameIds(String userId) throws IOException {
         List<Integer> gameList;
-        String gamesURI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key="+ KEY +"&steamid="+userId;
+        String gamesURI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=" + KEY + "&steamid=" + userId;
         HttpRequestCreator requestCreator = new HttpRequestCreator(gamesURI);
         gameList = new GsonParser().parseUserGameList(requestCreator.getAll());
         return gameList;
     }
 
-    private List<Game> getCombinedGames(List<Integer> gameIds){
+    private List<Game> getCombinedGames(List<Integer> gameIds) {
         List<Game> combinedGames = new ArrayList<>();
-        for (int gameId: gameIds
+        for (int gameId : gameIds
         ) {
             combinedGames.add(gameService.findGameById(gameId));
         }
