@@ -31,7 +31,7 @@ public class UserController {
     private final UserService userService;
 
     @CrossOrigin
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Map<String,List<String>> request) throws IOException {
         try {
             List<String> userIds = request.get("steamIds");
