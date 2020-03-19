@@ -1,18 +1,16 @@
 package com.app.demo.service;
 
 import com.app.demo.model.User;
-
-import static customAssertions.UserAssert.assertThat;
-
+import com.app.demo.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.app.demo.repository.UserRepository;
 
 import java.util.Arrays;
 
+import static customAssertions.UserAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;

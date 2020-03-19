@@ -1,12 +1,12 @@
 package com.app.demo.service;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import com.app.demo.model.Game;
-import org.springframework.stereotype.Service;
 import com.app.demo.repository.GameRepository;
 import com.app.demo.util.GsonParser;
 import com.app.demo.util.HttpRequestCreator;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;

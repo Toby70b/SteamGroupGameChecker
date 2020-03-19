@@ -1,9 +1,9 @@
 package com.app.demo.service;
 
-import lombok.RequiredArgsConstructor;
 import com.app.demo.model.User;
-import org.springframework.stereotype.Service;
 import com.app.demo.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

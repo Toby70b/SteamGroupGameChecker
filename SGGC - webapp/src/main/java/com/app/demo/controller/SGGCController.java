@@ -1,28 +1,24 @@
 package com.app.demo.controller;
 
-import com.app.demo.model.Request;
-import lombok.RequiredArgsConstructor;
 import com.app.demo.model.Game;
+import com.app.demo.model.Request;
 import com.app.demo.model.User;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import com.app.demo.service.GameService;
 import com.app.demo.service.UserService;
 import com.app.demo.util.GsonParser;
 import com.app.demo.util.HttpRequestCreator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/sggc")
-@ComponentScan(basePackages = {"com.app.demo.service"})
 @RequiredArgsConstructor
 public class SGGCController {
 
