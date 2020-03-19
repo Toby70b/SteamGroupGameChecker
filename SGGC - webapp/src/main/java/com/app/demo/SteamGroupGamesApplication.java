@@ -1,14 +1,14 @@
-package com.example.demo;
+package com.app.demo;
 
-import com.example.demo.models.Game;
+import com.app.demo.model.Game;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.example.demo.repositories.GameRepository;
-import com.example.demo.services.GameService;
+import com.app.demo.repository.GameRepository;
+import com.app.demo.service.GameService;
 
 import java.util.List;
 

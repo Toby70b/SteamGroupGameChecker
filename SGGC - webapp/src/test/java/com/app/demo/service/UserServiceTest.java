@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.app.demo.service;
 
-import com.example.demo.models.User;
+import com.app.demo.model.User;
 
 import static customAssertions.UserAssert.assertThat;
 
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.example.demo.repositories.UserRepository;
+import com.app.demo.repository.UserRepository;
 
 import java.util.Arrays;
 

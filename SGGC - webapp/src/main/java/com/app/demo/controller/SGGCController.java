@@ -1,17 +1,18 @@
-package com.example.demo.controllers;
+package com.app.demo.controller;
 
+import com.app.demo.model.Request;
 import lombok.RequiredArgsConstructor;
-import com.example.demo.models.Game;
-import com.example.demo.models.User;
+import com.app.demo.model.Game;
+import com.app.demo.model.User;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.services.GameService;
-import com.example.demo.services.UserService;
-import com.example.demo.utils.GsonParser;
-import com.example.demo.utils.HttpRequestCreator;
+import com.app.demo.service.GameService;
+import com.app.demo.service.UserService;
+import com.app.demo.util.GsonParser;
+import com.app.demo.util.HttpRequestCreator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/users")
-@ComponentScan(basePackages = {"com.example.demo.services"})
+@RequestMapping("api/sggc")
+@ComponentScan(basePackages = {"com.app.demo.service"})
 @RequiredArgsConstructor
-public class UserController {
+public class SGGCController {
 
     private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
     private static final int MULTIPLAYER_ID = 1;
@@ -31,10 +32,10 @@ public class UserController {
     private final UserService userService;
 
     @CrossOrigin
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Map<String, List<String>> request) throws IOException {
+    @PostMapping(value = "/")
+    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) throws IOException {
         try {
-            List<String> userIds = request.get("steamIds");
+            List<String> userIds = request.getSteamIds();
             //Create combined list from first users games list then remove them from the list so not to process them again
             List<Integer> combinedGameIds = getUsersOwnedGameIds(userIds.get(0));
             userIds.remove(0);

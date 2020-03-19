@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.app.demo.service;
 
-import com.example.demo.models.Game;
+import com.app.demo.model.Game;
 
 import static customAssertions.GameAssert.assertThat;
 
@@ -11,9 +11,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.example.demo.repositories.GameRepository;
-import com.example.demo.utils.GsonParser;
-import com.example.demo.utils.HttpRequestCreator;
+import com.app.demo.repository.GameRepository;
+import com.app.demo.util.GsonParser;
+import com.app.demo.util.HttpRequestCreator;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -1,10 +1,10 @@
-package com.example.demo.utils;
+package com.app.demo.util;
 
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.example.demo.models.Game;
+import com.app.demo.model.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;

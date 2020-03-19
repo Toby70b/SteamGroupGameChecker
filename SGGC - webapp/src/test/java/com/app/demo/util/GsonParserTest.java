@@ -1,6 +1,6 @@
-package com.example.demo.utils;
+package com.app.demo.util;
 
-import com.example.demo.models.Game;
+import com.app.demo.model.Game;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
