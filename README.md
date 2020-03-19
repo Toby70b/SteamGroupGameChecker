@@ -28,12 +28,9 @@ An example of the output of ther API is:
 ]
 ```
 
-
-
 ## UI
 
-Below are a couple of screengrabs of the UI:
-
+The UI is made with React with components from the ant design UI framework, all running on an node.js server. The UI allows the user to enter a number of steam id's and search for the common games between the users, there is some simple validation preventing the user from entering invalid steam id's. I've also added some Qol features such allowing the user to remove users from the search list. Once a search is performed a new panel will appear that, upon success of the fetch will display a scrollable table of the users common games, this table will have two columns; one in which the image of the game will be displayed (pulled from steamcdn-a.akamaihd.net) and the second which will display the games name, this doubles as a link to the game's Steam store page.
 
 ## Things to improve
 
