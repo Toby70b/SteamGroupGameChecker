@@ -1,7 +1,7 @@
 import React from "react";
 import 'antd/dist/antd.css';
 import { Input, Button, Row, Card, Table, Popconfirm, Typography, Form } from 'antd';
-import WrappedHorizontalLoginForm from "./WrappedHorizontalLoginForm";
+import WrappedHorizontalForm from "./WrappedHorizontalForm";
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -83,7 +83,7 @@ class GroupGameSearchPanel extends React.Component {
                     <Text level={2} type="danger">{this.props.errorMessage}</Text>
                 </Row>
                 <div style={{marginBottom:16}}>
-                    <WrappedHorizontalLoginForm
+                    <WrappedHorizontalForm
                         placeholder={"Please enter a Steam Id"}
                         label = {"Steam Id:"}
                         onSubmit = {this.handleAdd}
@@ -91,7 +91,7 @@ class GroupGameSearchPanel extends React.Component {
                         requiredMessage = {" A Steam Id is required "}
                         validate = {this.validateSteamId}
                     >
-                    </WrappedHorizontalLoginForm>
+                    </WrappedHorizontalForm>
                 </div>
                 <Table dataSource={this.state.dataSource} columns={this.columns} rowKey={record => record.id} scroll={{y:300}} pagination={false} style={{marginBottom:18}} />
                 <Row type="flex" justify="end">

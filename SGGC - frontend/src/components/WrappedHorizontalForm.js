@@ -7,7 +7,7 @@ function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-class HorizontalLoginForm extends React.Component {
+class HorizontalForm extends React.Component {
     componentDidMount() {
         this.props.form.validateFields();
     }
@@ -47,8 +47,8 @@ class HorizontalLoginForm extends React.Component {
     }
 }
 
-const WrappedHorizontalLoginForm = Form.create({ name: 'horizontal_login' })(HorizontalLoginForm);
+const WrappedHorizontalForm = Form.create({ name: 'horizontal_form' })(HorizontalForm);
 
-export default WrappedHorizontalLoginForm;
+export default WrappedHorizontalForm;
 
 
