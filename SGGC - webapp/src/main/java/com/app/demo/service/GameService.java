@@ -46,7 +46,7 @@ public class GameService {
     }
 
 
-    public Game findGameById(int id) {
-        return gameRepository.findById(id);
+    public Game findByAppid(int appid) {
+        return gameRepository.findGameByAppid(appid);
     }
 }

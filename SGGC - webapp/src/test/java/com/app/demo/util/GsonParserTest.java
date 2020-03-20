@@ -31,7 +31,7 @@ public class GsonParserTest {
         for (int i = 0; i > actualResult.size(); i++) {
             Assert.assertEquals(actualResult.get(i).getId(), ALL_GAMES_LIST_EXPECTED_RESULT.get(i).getId());
             Assert.assertEquals(actualResult.get(i).getName(), ALL_GAMES_LIST_EXPECTED_RESULT.get(i).getName());
-            Assert.assertEquals(actualResult.get(i).isMultiplayer(), ALL_GAMES_LIST_EXPECTED_RESULT.get(i).isMultiplayer());
+            Assert.assertEquals(actualResult.get(i).getMultiplayer(), ALL_GAMES_LIST_EXPECTED_RESULT.get(i).getMultiplayer());
         }
     }
 

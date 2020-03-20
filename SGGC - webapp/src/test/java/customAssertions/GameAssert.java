@@ -15,7 +15,7 @@ public class GameAssert extends AbstractAssert<GameAssert, Game> {
 
     public GameAssert hasDetails() {
         isNotNull();
-        if (actual.getId() == 0) {
+        if (actual.getId().equals(0) ) {
             failWithMessage(
                     "Expected game to have a id, but it was null"
             );

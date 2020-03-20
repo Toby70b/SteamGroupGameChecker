@@ -56,11 +56,11 @@ public class SGGCController {
     }
 
     private boolean isMultiplayer(Integer gameId) throws IOException {
-        Game game = gameService.findGameById(gameId);
+        Game game = gameService.findByAppid(gameId);
 
 
-        if (game.isMultiplayer() != null) {
-            return game.isMultiplayer();
+        if (game.getMultiplayer() != null) {
+            return game.getMultiplayer();
         } else {
             //Make an api call for the gameId
             String URI = "http://store.steampowered.com/api/appdetails/?appids=" + gameId;
@@ -113,7 +113,7 @@ public class SGGCController {
         List<Game> combinedGames = new ArrayList<>();
         for (int gameId : gameIds
         ) {
-            combinedGames.add(gameService.findGameById(gameId));
+            combinedGames.add(gameService.findByAppid(gameId));
         }
         return combinedGames;
     }

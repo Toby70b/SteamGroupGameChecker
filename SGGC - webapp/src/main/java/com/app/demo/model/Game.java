@@ -1,46 +1,26 @@
 package com.app.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+import java.math.BigInteger;
+
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+@Document(collection = "Game")
 public class Game {
     @Id
-    private int id;
+    private BigInteger id;
+    @NonNull
+    private int appid;
+    @NonNull
     private String name;
+
     private Boolean multiplayer;
-
-    public Game(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    protected Game() {
-    }
-
-    public Boolean isMultiplayer() {
-        return multiplayer;
-    }
-
-    public void setMultiplayer(Boolean multiplayer) {
-        this.multiplayer = multiplayer;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 }
+
