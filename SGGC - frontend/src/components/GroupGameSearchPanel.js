@@ -78,7 +78,7 @@ class GroupGameSearchPanel extends React.Component {
     render() {
         return(
         <div>
-            <Card title={<h2>Search for Common Games</h2>}  style={{ width: 1000 }}>
+            <Card title={<h2>Search for Common Games</h2>} >
                 <Row type="flex" justify="center" style={{marginBottom:16}}>
                     <Text level={2} type="danger">{this.props.errorMessage}</Text>
                 </Row>

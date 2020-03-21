@@ -1,5 +1,5 @@
 import React from "react";
-import {Typography,Row} from "antd";
+import {Typography,Row,Col} from "antd";
 import GroupGameSearchPanel from "./GroupGameSearchPanel";
 import GroupGameSearchResultsPanel from "./GroupGameSearchResultsPanel";
 
@@ -61,19 +61,22 @@ class GroupGameSearchPage extends React.Component {
                 </Row>
 
                 <Row type="flex" justify="center" style={{marginBottom:16}}>
-                    <GroupGameSearchPanel
-                    onSearch = {this.handleSearch}
-                    errorMessage ={this.state.errorMessage}>
-                    </GroupGameSearchPanel>
+                     <Col xs={24} lg={12}>
+                            <GroupGameSearchPanel
+                            onSearch = {this.handleSearch}
+                            errorMessage ={this.state.errorMessage}>
+                            </GroupGameSearchPanel>
+                    </Col>
                 </Row>
-
                 <Row type="flex" justify="center" style={{marginBottom:16}}>
-                    { this.state.displayResults ?
-                        <GroupGameSearchResultsPanel
-                            isLoading={this.state.resultsLoading}
-                            dataSource={this.state.resultsDataSource}
-                        >
-                        </GroupGameSearchResultsPanel> : null }
+                    <Col xs={24} lg={12}>
+                        { this.state.displayResults ?
+                            <GroupGameSearchResultsPanel
+                                isLoading={this.state.resultsLoading}
+                                dataSource={this.state.resultsDataSource}
+                            >
+                            </GroupGameSearchResultsPanel> : null }
+                    </Col>
                 </Row>
             </div>
         );
