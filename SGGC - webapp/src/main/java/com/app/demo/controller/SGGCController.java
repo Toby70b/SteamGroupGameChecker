@@ -32,10 +32,7 @@ public class SGGCController {
     public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) throws IOException {
         try {
             List<String> userIds = request.getSteamIds();
-            //Create combined list from first users games list then remove them from the list so not to process them again
-            List<Integer> combinedGameIds = getUsersOwnedGameIds(userIds.get(0));
-            userIds.remove(0);
-            combinedGameIds = getIdsOfGamesOwnedByAllUsers(combinedGameIds, userIds);
+            List<Integer> combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
             List<Integer> combinedMultiplayerGameIds = removeNonMultiplayerGamesFromList(combinedGameIds);
             return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
         } catch (IOException e) {
@@ -82,23 +79,19 @@ public class SGGCController {
         }
     }
 
-    private List<Integer> getIdsOfGamesOwnedByAllUsers(List<Integer> combinedGameIds, List<String> userIds) throws IOException {
+    private List<Integer> getIdsOfGamesOwnedByAllUsers(List<String> userIds) throws IOException {
         //for each other id entered make a get call to the steam api to get users owned games then remove from the combined list
         //any that dont appear in the new users list
-        List<Integer> combinedGameIdsCopy = new ArrayList<>(combinedGameIds);
+        List<Integer> combinedGameIds = new ArrayList<>();
         for (String userId : userIds) {
             //If the users owned game ids have been saved, get them from the repo, dont make another api call
-            if (userService.findUserById(userId) != null) {
-                List<Integer> usersOwnedGameIds = userService.findUserById(userId).getOwnedGameIds();
-                combinedGameIdsCopy.removeIf(gameId -> !usersOwnedGameIds.contains(gameId));
-            } else {
-                List<Integer> usersOwnedGameIds = getUsersOwnedGameIds(userId);
-                combinedGameIdsCopy.removeIf(gameId -> !usersOwnedGameIds.contains(gameId));
-                // save the user to the repo to save on api calls
-                userService.save(new User(userId, usersOwnedGameIds));
+            List<Integer> usersOwnedGameIds = findUsersGameIdsById(userId);
+            if (combinedGameIds.isEmpty()) {
+                combinedGameIds = usersOwnedGameIds;
             }
+            combinedGameIds.removeIf(gameId -> !usersOwnedGameIds.contains(gameId));
         }
-        return combinedGameIdsCopy;
+        return combinedGameIds;
     }
 
     private List<Integer> getUsersOwnedGameIds(String userId) throws IOException {
@@ -116,5 +109,16 @@ public class SGGCController {
             combinedGames.add(gameService.findByAppid(gameId));
         }
         return combinedGames;
+    }
+
+    private List<Integer> findUsersGameIdsById(String userId) throws IOException {
+        if (userService.findUserById(userId) != null) {
+            return userService.findUserById(userId).getOwnedGameIds();
+        } else {
+            List<Integer> usersOwnedGameIds = getUsersOwnedGameIds(userId);
+            //Cache the user to speed up searches, in future this should be cleared out more than once daily
+            userService.save(new User(userId, usersOwnedGameIds));
+            return usersOwnedGameIds;
+        }
     }
 }

@@ -43,7 +43,7 @@ public class UserServiceTest {
     @Test
     void savedUserCanBeFoundSuccessfully() {
         User user = new User(TOBY_STEAM_ID, Arrays.asList(1, 2, 3));
-        when(userRepository.findById(TOBY_STEAM_ID)).thenReturn(user);
+        when(userRepository.findUserByid(TOBY_STEAM_ID)).thenReturn(user);
         User foundUser = userService.findUserById(TOBY_STEAM_ID);
         assertThat(TOBY_STEAM_ID).isEqualTo(foundUser.getId());
         assertThat(Arrays.asList(1, 2, 3)).isEqualTo(foundUser.getOwnedGameIds());
