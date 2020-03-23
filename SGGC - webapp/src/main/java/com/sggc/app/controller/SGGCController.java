@@ -103,11 +103,7 @@ public class SGGCController {
     }
 
     private List<Game> getCombinedGames(List<Integer> gameIds) {
-        List<Game> combinedGames = new ArrayList<>();
-        for (int gameId : gameIds
-        ) {
-            combinedGames.add(gameService.findByAppid(gameId));
-        }
+        List<Game> combinedGames = gameIds.stream().map(gameService::findByAppid).collect(Collectors.toList());
         return combinedGames;
     }
 
