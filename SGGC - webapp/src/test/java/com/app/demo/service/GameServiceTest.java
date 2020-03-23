@@ -67,7 +67,7 @@ public class GameServiceTest {
         Game game = new Game(ID, "name");
         when(gameRepository.findGameByAppid(ID)).thenReturn(game);
         Game foundGame = gameService.findByAppid(ID);
-        assertThat(ID).isEqualTo(foundGame.getId());
+        assertThat(ID).isEqualTo(foundGame.getAppid());
         assertThat("name").isEqualTo(foundGame.getName());
     }
 }
