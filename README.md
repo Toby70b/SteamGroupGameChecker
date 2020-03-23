@@ -37,5 +37,12 @@ The UI is made with React with components from the ant design UI framework, all 
 
 ## Things to improve
 
+- [x] Dockerize the components and provide some Kubernetes yaml files for deployments and services
+- [ ] Standardising and document the format of the errors returned from the API, for easier consuming
+- [ ] More testing
+- [ ] Probably a lot of cleanup and refactoring 
+
 ## Thanks to
 
+https://steamcommunity.com/dev (without it this wouldn't exist, and I wouldn't have had the practice) 
+https://github.com/ramilsafnab1996/spring-boot-steam-demo (Provided me with knowledge of accessing the steam API)
