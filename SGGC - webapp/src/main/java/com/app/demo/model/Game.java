@@ -1,5 +1,6 @@
 package com.app.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,13 +15,14 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @Document(collection = "Game")
 public class Game {
+    @JsonIgnore
     @Id
     private BigInteger id;
     @NonNull
     private int appid;
     @NonNull
     private String name;
-
+    @JsonIgnore
     private Boolean multiplayer;
 }
 
