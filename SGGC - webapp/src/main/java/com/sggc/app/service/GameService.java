@@ -1,9 +1,9 @@
-package com.app.demo.service;
+package com.sggc.app.service;
 
-import com.app.demo.model.Game;
-import com.app.demo.repository.GameRepository;
-import com.app.demo.util.GsonParser;
-import com.app.demo.util.HttpRequestCreator;
+import com.sggc.app.model.Game;
+import com.sggc.app.repository.GameRepository;
+import com.sggc.app.util.GsonParser;
+import com.sggc.app.util.HttpRequestCreator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

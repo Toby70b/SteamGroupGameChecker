@@ -1,4 +1,4 @@
-package com.app.demo.model;
+package com.sggc.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

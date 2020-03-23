@@ -1,4 +1,4 @@
-package com.app.demo.model;
+package com.sggc.app.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

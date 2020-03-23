@@ -1,4 +1,4 @@
-package com.app.demo.util;
+package com.sggc.app.util;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 
 public class HttpRequestCreator {
     private HttpClient client;
@@ -34,31 +35,25 @@ public class HttpRequestCreator {
 
             return inputStreamToString(response.getEntity().getContent());
 
-
         } catch (IOException e) {
-            throw new IOException(e.getMessage());
+           throw e;
         }
     }
 
-
     private String inputStreamToString(InputStream is) throws IOException {
-
         String line = "";
         StringBuilder total = new StringBuilder();
 
-        // Wrap a BufferedReader around the InputStream
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-
-        try {
+        try(BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
             // Read response until the end
             while ((line = rd.readLine()) != null) {
                 total.append(line);
             }
         } catch (IOException e) {
-            rd.close();
+            e.printStackTrace();
+            throw e;
         }
-        rd.close();
-        // Return full string
+
         return total.toString();
     }
 

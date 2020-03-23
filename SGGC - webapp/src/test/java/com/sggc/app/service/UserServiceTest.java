@@ -1,7 +1,8 @@
-package com.app.demo.service;
+package com.sggc.app.service;
 
-import com.app.demo.model.User;
-import com.app.demo.repository.UserRepository;
+import com.sggc.app.model.User;
+import com.sggc.app.repository.UserRepository;
+import customAssertions.UserAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
-import static customAssertions.UserAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,7 +36,7 @@ public class UserServiceTest {
         User user = new User(TOBY_STEAM_ID, Arrays.asList(1, 2, 3));
         when(userRepository.save(any(User.class))).then(returnsFirstArg());
         User savedUser = userService.save(user);
-        assertThat(savedUser).hasDetails();
+        UserAssert.assertThat(savedUser).hasDetails();
 
     }
 

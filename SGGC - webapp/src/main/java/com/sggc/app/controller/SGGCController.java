@@ -1,12 +1,13 @@
-package com.app.demo.controller;
+package com.sggc.app.controller;
 
-import com.app.demo.model.Game;
-import com.app.demo.model.Request;
-import com.app.demo.model.User;
-import com.app.demo.service.GameService;
-import com.app.demo.service.UserService;
-import com.app.demo.util.GsonParser;
-import com.app.demo.util.HttpRequestCreator;
+import com.sggc.app.model.Game;
+import com.sggc.app.model.Request;
+import com.sggc.app.model.User;
+import com.sggc.app.service.GameService;
+import com.sggc.app.service.UserService;
+import com.sggc.app.util.GsonParser;
+import com.sggc.app.util.HttpRequestCreator;
+import com.sggc.app.util.RuntimeWrappablePredicateMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,13 +29,9 @@ public class SGGCController {
     private final GameService gameService;
     private final UserService userService;
 
-
-
-
-
     @CrossOrigin
     @PostMapping(value = "/")
-    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) throws IOException {
+    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) {
         try {
             List<String> userIds = request.getSteamIds();
             List<Integer> combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
@@ -45,21 +43,20 @@ public class SGGCController {
     }
 
     private List<Integer> removeNonMultiplayerGamesFromList(List<Integer> combinedGameIds) {
-        combinedGameIds = combinedGameIds.stream().filter(gameId -> {
-            try {
-                return isMultiplayer(gameId);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }).collect(Collectors.toList());
+        combinedGameIds = combinedGameIds.stream().filter(
+                RuntimeWrappablePredicateMapper.wrap(this::isMultiplayer)
+        ).collect(Collectors.toList());
         return combinedGameIds;
+    }
+
+    public  <T> T uncheckCall(Callable<T> callable) {
+        try { return callable.call(); }
+        catch (RuntimeException e) { throw e; }
+        catch (Exception e) { throw new RuntimeException(e); }
     }
 
     private boolean isMultiplayer(Integer gameId) throws IOException {
         Game game = gameService.findByAppid(gameId);
-
-
         if (game.getMultiplayer() != null) {
             return game.getMultiplayer();
         } else {

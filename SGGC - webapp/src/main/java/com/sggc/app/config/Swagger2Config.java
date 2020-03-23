@@ -1,4 +1,4 @@
-package com.app.demo.config;
+package com.sggc.app.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

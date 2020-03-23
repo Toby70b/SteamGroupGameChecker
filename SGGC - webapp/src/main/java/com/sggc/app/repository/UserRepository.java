@@ -1,6 +1,6 @@
-package com.app.demo.repository;
+package com.sggc.app.repository;
 
-import com.app.demo.model.User;
+import com.sggc.app.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package com.app.demo.service;
+package com.sggc.app.service;
 
-import com.app.demo.model.User;
-import com.app.demo.repository.UserRepository;
+import com.sggc.app.model.User;
+import com.sggc.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

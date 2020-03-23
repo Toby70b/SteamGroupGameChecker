@@ -1,4 +1,4 @@
-package com.app.demo.model;
+package com.sggc.app.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
 

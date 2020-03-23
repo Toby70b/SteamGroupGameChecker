@@ -1,4 +1,4 @@
-package com.app.demo;
+package com.sggc.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

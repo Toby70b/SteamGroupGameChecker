@@ -1,9 +1,11 @@
-package com.app.demo.service;
+package com.sggc.app.service;
 
-import com.app.demo.model.Game;
-import com.app.demo.repository.GameRepository;
-import com.app.demo.util.GsonParser;
-import com.app.demo.util.HttpRequestCreator;
+import com.sggc.app.model.Game;
+import com.sggc.app.repository.GameRepository;
+import com.sggc.app.util.GsonParser;
+import com.sggc.app.util.HttpRequestCreator;
+import customAssertions.GameAssert;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static customAssertions.GameAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,7 +52,7 @@ public class GameServiceTest {
         initMocks(this);
         when(requestCreator.getAll()).thenReturn("");
         when(gsonParser.parseGameList(any(String.class))).thenReturn(GAME_LIST_RESPONSE);
-        assertThat(gameService.saveAllGamesToDB()).isEqualTo(GAME_LIST_RESPONSE);
+        Assertions.assertThat(gameService.saveAllGamesToDB()).isEqualTo(GAME_LIST_RESPONSE);
     }
 
     @Test
@@ -59,7 +60,7 @@ public class GameServiceTest {
         Game game = new Game(ID, "name");
         when(gameRepository.save(any(Game.class))).then(returnsFirstArg());
         Game savedGame = gameService.save(game);
-        assertThat(game).hasDetails();
+        GameAssert.assertThat(game).hasDetails();
     }
 
     @Test

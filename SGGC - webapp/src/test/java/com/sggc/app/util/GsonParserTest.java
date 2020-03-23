@@ -1,6 +1,6 @@
-package com.app.demo.util;
+package com.sggc.app.util;
 
-import com.app.demo.model.Game;
+import com.sggc.app.model.Game;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

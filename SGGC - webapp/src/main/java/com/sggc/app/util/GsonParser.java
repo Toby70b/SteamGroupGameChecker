@@ -1,7 +1,7 @@
-package com.app.demo.util;
+package com.sggc.app.util;
 
 
-import com.app.demo.model.Game;
+import com.sggc.app.model.Game;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

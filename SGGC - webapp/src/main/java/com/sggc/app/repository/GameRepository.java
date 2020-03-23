@@ -1,6 +1,6 @@
-package com.app.demo.repository;
+package com.sggc.app.repository;
 
-import com.app.demo.model.Game;
+import com.sggc.app.model.Game;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
