@@ -3,7 +3,7 @@ MAINTAINER Toby Peel
 COPY pom.xml /build/
 COPY src /build/src/
 WORKDIR /build/
-RUN mvn package
+RUN mvn clean package -Dmaven.test.skip=true
 
 FROM openjdk:8-jdk-alpine
 WORKDIR /app

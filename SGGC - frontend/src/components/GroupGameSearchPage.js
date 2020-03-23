@@ -40,7 +40,7 @@ class GroupGameSearchPage extends React.Component {
                 body: JSON.stringify(data)
             }
             this.setState({displayResults: true, resultsLoading: true, errorMessage: '',})
-            fetch('http://localhost:8080/api/sggc/', options)
+            fetch('http://localhost:30001/api/sggc/', options)
                 .then(this.handleErrors)
                 .then(response => {
                     return response.json()
