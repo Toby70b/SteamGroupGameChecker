@@ -22,10 +22,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SGGCController {
 
-    private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
+    private static final String GET_OWNED_GAMES_API_URI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=B88AF6D15A99EF5A4E01075EF63E5DF2&steamid=";
     private static final int MULTIPLAYER_ID = 1;
     private final GameService gameService;
     private final UserService userService;
+
+
+
+
 
     @CrossOrigin
     @PostMapping(value = "/")
@@ -95,7 +99,7 @@ public class SGGCController {
 
     private List<Integer> getUsersOwnedGameIds(String userId) throws IOException {
         List<Integer> gameList;
-        String gamesURI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=" + KEY + "&steamid=" + userId;
+        String gamesURI = GET_OWNED_GAMES_API_URI + userId;
         HttpRequestCreator requestCreator = new HttpRequestCreator(gamesURI);
         gameList = new GsonParser().parseUserGameList(requestCreator.getAll());
         return gameList;
