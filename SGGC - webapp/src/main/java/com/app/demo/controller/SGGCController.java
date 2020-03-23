@@ -84,7 +84,6 @@ public class SGGCController {
         //any that dont appear in the new users list
         List<Integer> combinedGameIds = new ArrayList<>();
         for (String userId : userIds) {
-            //If the users owned game ids have been saved, get them from the repo, dont make another api call
             List<Integer> usersOwnedGameIds = findUsersGameIdsById(userId);
             if (combinedGameIds.isEmpty()) {
                 combinedGameIds = usersOwnedGameIds;
