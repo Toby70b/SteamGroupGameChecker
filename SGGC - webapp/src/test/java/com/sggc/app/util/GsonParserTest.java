@@ -1,5 +1,6 @@
 package com.sggc.app.util;
 
+import com.sggc.app.exception.UserHasNoGamesException;
 import com.sggc.app.model.Game;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ public class GsonParserTest {
     }
 
     @Test
-    public void parseStringOfUsersOwnedGamesIntoListOfGames() {
+    public void parseStringOfUsersOwnedGamesIntoListOfGames() throws UserHasNoGamesException {
         Assert.assertEquals(TESTING_USER_OWNED_GAME_IDS_EXPECTED_RESULT,
                 gsonParser.parseUserGameList(TESTING_USER_OWNED_GAME_IDS_RESPONSE_EXAMPLE));
     }

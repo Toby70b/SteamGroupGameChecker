@@ -1,5 +1,6 @@
 package com.sggc.app.controller;
 
+import com.sggc.app.exception.UserHasNoGamesException;
 import com.sggc.app.model.Game;
 import com.sggc.app.model.Request;
 import com.sggc.app.model.User;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,14 +34,21 @@ public class SGGCController {
     @CrossOrigin
     @PostMapping(value = "/")
     public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) {
+        List<String> userIds = request.getSteamIds();
+        List<Integer> combinedGameIds = null;
         try {
-            List<String> userIds = request.getSteamIds();
-            List<Integer> combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
-            List<Integer> combinedMultiplayerGameIds = removeNonMultiplayerGamesFromList(combinedGameIds);
-            return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
+            combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", e);
         }
+        catch (UserHasNoGamesException e){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        List<Integer> combinedMultiplayerGameIds = removeNonMultiplayerGamesFromList(combinedGameIds);
+            return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
+
     }
 
     private List<Integer> removeNonMultiplayerGamesFromList(List<Integer> combinedGameIds) {
@@ -80,7 +89,7 @@ public class SGGCController {
         }
     }
 
-    private List<Integer> getIdsOfGamesOwnedByAllUsers(List<String> userIds) throws IOException {
+    private List<Integer> getIdsOfGamesOwnedByAllUsers(List<String> userIds) throws IOException, UserHasNoGamesException {
         //for each other id entered make a get call to the steam api to get users owned games then remove from the combined list
         //any that dont appear in the new users list
         List<Integer> combinedGameIds = new ArrayList<>();
@@ -94,7 +103,7 @@ public class SGGCController {
         return combinedGameIds;
     }
 
-    private List<Integer> getUsersOwnedGameIds(String userId) throws IOException {
+    private List<Integer> getUsersOwnedGameIds(String userId) throws IOException, UserHasNoGamesException {
         List<Integer> gameList;
         String gamesURI = GET_OWNED_GAMES_API_URI + userId;
         HttpRequestCreator requestCreator = new HttpRequestCreator(gamesURI);
@@ -107,11 +116,18 @@ public class SGGCController {
         return combinedGames;
     }
 
-    private List<Integer> findUsersGameIdsById(String userId) throws IOException {
+    private List<Integer> findUsersGameIdsById(String userId) throws IOException, UserHasNoGamesException {
         if (userService.findUserById(userId) != null) {
             return userService.findUserById(userId).getOwnedGameIds();
         } else {
-            List<Integer> usersOwnedGameIds = getUsersOwnedGameIds(userId);
+            // TODO if this goes wrong catch and throw a cantGetUsersGamesError or something
+            List<Integer> usersOwnedGameIds = null;
+            try {
+                usersOwnedGameIds = getUsersOwnedGameIds(userId);
+            } catch (UserHasNoGamesException e) {
+                e.setUserId(userId);
+                throw e;
+            }
             //Cache the user to speed up searches, in future this should be cleared out more than once daily
             userService.save(new User(userId, usersOwnedGameIds));
             return usersOwnedGameIds;

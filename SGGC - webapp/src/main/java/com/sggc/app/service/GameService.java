@@ -45,7 +45,6 @@ public class GameService {
         return game;
     }
 
-
     public Game findByAppid(int appid) {
         return gameRepository.findGameByAppid(appid);
     }
