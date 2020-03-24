@@ -1,12 +1,11 @@
 package com.sggc.app.util;
 
 
-import com.sggc.app.exception.UserHasNoGamesException;
-import com.sggc.app.model.Game;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.bytebuddy.implementation.bytecode.Throw;
+import com.sggc.app.exception.UserHasNoGamesException;
+import com.sggc.app.model.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +41,7 @@ public class GsonParser {
         JsonElement games = obj.get("games");
 
         if(games==null){
-            throw new UserHasNoGamesException("");
+            throw new UserHasNoGamesException();
         }
 
         Iterator<JsonElement> iterator = games.getAsJsonArray().iterator();

@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserHasNoGamesException extends Exception {
+public class UserHasNoGamesException extends RuntimeException {
     private String userId;
-    public UserHasNoGamesException(String message) {
-        super(message);
+    public UserHasNoGamesException() {
+        super();
     }
 
     @Override
