@@ -37,13 +37,7 @@ public class GsonParser {
     }
 
     public List<Integer> parseUserGameList(String stringToParse) throws UserHasNoGamesException, IOException {
-        JsonElement jsonTree = null;
-
-        try {
-            jsonTree = JsonParser.parseString(stringToParse);
-        } catch (JsonSyntaxException e) {
-            throw new IOException(e);
-        }
+        JsonElement jsonTree = parseResponseStringToJson(stringToParse);
 
         JsonObject obj = jsonTree.getAsJsonObject().getAsJsonObject("response");
 
@@ -64,12 +58,7 @@ public class GsonParser {
     }
 
     public List<Integer> parseGameDetailsList(String stringToParse) throws IOException {
-        JsonElement jsonTree = null;
-        try {
-            jsonTree = JsonParser.parseString(stringToParse);
-        } catch (JsonSyntaxException e) {
-            throw new IOException(e);
-        }
+        JsonElement jsonTree = parseResponseStringToJson(stringToParse);
 
         JsonObject obj = jsonTree.getAsJsonObject();
         // The root of the response is a id of the game thus get the responses root value
@@ -94,5 +83,14 @@ public class GsonParser {
             categoryIdsList.add(element.getAsJsonObject().get("id").getAsInt());
         }
         return categoryIdsList;
+    }
+
+    public JsonElement parseResponseStringToJson(String stringToParse) throws IOException {
+        try {
+            return JsonParser.parseString(stringToParse);
+
+        } catch (JsonSyntaxException e) {
+            throw new IOException("Error when parsing response string into JSON object, this is likely due an invalid User id",e);
+        }
     }
 }

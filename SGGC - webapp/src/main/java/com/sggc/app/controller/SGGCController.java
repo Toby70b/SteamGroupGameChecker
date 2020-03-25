@@ -10,12 +10,15 @@ import com.sggc.app.util.GsonParser;
 import com.sggc.app.util.HttpRequestCreator;
 import com.sggc.app.util.RuntimeWrappablePredicateMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -25,7 +28,7 @@ import java.util.stream.Collectors;
 @RequestMapping("api/sggc")
 @RequiredArgsConstructor
 public class SGGCController {
-
+    private static Logger LOGGER = LoggerFactory.getLogger(SGGCController.class);
     private static final String GET_OWNED_GAMES_API_URI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=B88AF6D15A99EF5A4E01075EF63E5DF2&steamid=";
     private static final int MULTIPLAYER_ID = 1;
     private final GameService gameService;
@@ -33,6 +36,7 @@ public class SGGCController {
 
     @CrossOrigin
     @PostMapping(value = "/")
+    //TODO: validate request body
     public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) {
         List<String> userIds = request.getSteamIds();
         List<Integer> combinedGameIds = null;
@@ -66,6 +70,7 @@ public class SGGCController {
         } else {
             //Make an api call for the gameId
             String URI = "http://store.steampowered.com/api/appdetails/?appids=" + gameId;
+            LOGGER.debug("Contacting "+URI+" to get details of game "+gameId);
             //Create the request
             HttpRequestCreator requestCreator = new HttpRequestCreator(URI);
             //Parse the response to get list of categories
@@ -101,6 +106,7 @@ public class SGGCController {
     private List<Integer> getUsersOwnedGameIds(String userId) throws IOException, UserHasNoGamesException {
         List<Integer> gameList;
         String gamesURI = GET_OWNED_GAMES_API_URI + userId;
+        LOGGER.debug("Contacting "+gamesURI+" to get owned games of user "+userId);
         HttpRequestCreator requestCreator = new HttpRequestCreator(gamesURI);
         gameList = new GsonParser().parseUserGameList(requestCreator.getAll());
         return gameList;
