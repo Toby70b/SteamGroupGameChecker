@@ -4,9 +4,11 @@ package com.sggc.app.util;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.sggc.app.exception.UserHasNoGamesException;
 import com.sggc.app.model.Game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -34,13 +36,20 @@ public class GsonParser {
         return gameList;
     }
 
-    public List<Integer> parseUserGameList(String stringToParse) throws UserHasNoGamesException {
-        JsonElement jsonTree = JsonParser.parseString(stringToParse);
+    public List<Integer> parseUserGameList(String stringToParse) throws UserHasNoGamesException, IOException {
+        JsonElement jsonTree = null;
+
+        try {
+            jsonTree = JsonParser.parseString(stringToParse);
+        } catch (JsonSyntaxException e) {
+            throw new IOException(e);
+        }
+
         JsonObject obj = jsonTree.getAsJsonObject().getAsJsonObject("response");
 
         JsonElement games = obj.get("games");
 
-        if(games==null){
+        if (games == null) {
             throw new UserHasNoGamesException();
         }
 
@@ -54,8 +63,14 @@ public class GsonParser {
         return gameIdList;
     }
 
-    public List<Integer> parseGameDetailsList(String stringToParse) {
-        JsonElement jsonTree = JsonParser.parseString(stringToParse);
+    public List<Integer> parseGameDetailsList(String stringToParse) throws IOException {
+        JsonElement jsonTree = null;
+        try {
+            jsonTree = JsonParser.parseString(stringToParse);
+        } catch (JsonSyntaxException e) {
+            throw new IOException(e);
+        }
+
         JsonObject obj = jsonTree.getAsJsonObject();
         // The root of the response is a id of the game thus get the responses root value
         String gameId = obj.keySet().iterator().next();

@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
+
 @RestControllerAdvice
 public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @Value("${requests.api.version}")
+    @Value("${sggc.api.version}")
     private String currentApiVersion;
 
     @ExceptionHandler(UserHasNoGamesException.class)
-    public ResponseEntity<ApiError> handleNonExistingRequest(UserHasNoGamesException ex) {
+    public ResponseEntity<ApiError> handleUserHasNoGames(UserHasNoGamesException ex) {
         final ApiError error = new ApiError(
                 currentApiVersion,
                 Integer.toString(HttpStatus.NOT_FOUND.value()),
@@ -26,5 +28,17 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
                 "User with Id: "+ex.getUserId()+" has no games associated with their account "
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ApiError> handleIOException(IOException ex) {
+        final ApiError error = new ApiError(
+                currentApiVersion,
+                Integer.toString(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                "Internal Server Error",
+                "IOException",
+                "Internal server error, error within code, please check the logs..."
+        );
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebErrorConfiguration {
 
-    @Value("${requests.api.version}")
+    @Value("${sggc.api.version}")
     private String currentApiVersion;
 
     @Bean

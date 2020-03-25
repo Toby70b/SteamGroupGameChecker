@@ -38,11 +38,7 @@ public class SGGCController {
         List<Integer> combinedGameIds = null;
         try {
             combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
-        } catch (IOException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", e);
-        }
-        catch (UserHasNoGamesException e){
+        } catch (IOException | UserHasNoGamesException e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }

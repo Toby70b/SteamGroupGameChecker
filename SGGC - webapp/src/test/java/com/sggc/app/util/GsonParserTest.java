@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class GsonParserTest {
     }
 
     @Test
-    public void parseStringOfUsersOwnedGamesIntoListOfGames() throws UserHasNoGamesException {
+    public void parseStringOfUsersOwnedGamesIntoListOfGames() throws UserHasNoGamesException, IOException {
         Assert.assertEquals(TESTING_USER_OWNED_GAME_IDS_EXPECTED_RESULT,
                 gsonParser.parseUserGameList(TESTING_USER_OWNED_GAME_IDS_RESPONSE_EXAMPLE));
     }

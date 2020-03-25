@@ -26,17 +26,21 @@ public class HttpRequestCreator {
     }
 
     public String getAll() throws IOException {
+        client = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(URI);
+        get.addHeader(contentTypeHeader);
+        HttpResponse response = null;
         try {
-            client = HttpClientBuilder.create().build();
-            HttpGet get = new HttpGet(URI);
-            get.addHeader(contentTypeHeader);
-
-            HttpResponse response = client.execute(get);
-
+            response = client.execute(get);
+        }
+        catch (IOException e){
+            //TODO log error with URI used
+            throw new IOException("Error communicating with the Steam API",e);
+        }
+        try {
             return inputStreamToString(response.getEntity().getContent());
-
         } catch (IOException e) {
-           throw e;
+            throw new IOException("Error parsing the response from the Steam API",e);
         }
     }
 
@@ -50,7 +54,6 @@ public class HttpRequestCreator {
                 total.append(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
             throw e;
         }
 
