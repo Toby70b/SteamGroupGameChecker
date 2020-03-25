@@ -117,9 +117,12 @@ public class SGGCController {
     }
 
     private List<Integer> findUsersGameIdsById(String userId) throws IOException, UserHasNoGamesException {
+        LOGGER.debug("Attempting to find user with id: "+userId);
         if (userService.findUserById(userId) != null) {
+            LOGGER.debug("User with matching id has been found in Mongo Repo");
             return userService.findUserById(userId).getOwnedGameIds();
         } else {
+            LOGGER.debug("User with matching id hasnt been found in Mongo Repo, will request details from Steam API");
             List<Integer> usersOwnedGameIds = null;
             try {
                 usersOwnedGameIds = getUsersOwnedGameIds(userId);
