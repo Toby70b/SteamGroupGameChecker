@@ -47,8 +47,7 @@ public class SGGCController {
                     HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
         List<Integer> combinedMultiplayerGameIds = removeNonMultiplayerGamesFromList(combinedGameIds);
-            return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
-
+        return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
     }
 
     private List<Integer> removeNonMultiplayerGamesFromList(List<Integer> combinedGameIds) {
@@ -120,7 +119,6 @@ public class SGGCController {
         if (userService.findUserById(userId) != null) {
             return userService.findUserById(userId).getOwnedGameIds();
         } else {
-            // TODO if this goes wrong catch and throw a cantGetUsersGamesError or something
             List<Integer> usersOwnedGameIds = null;
             try {
                 usersOwnedGameIds = getUsersOwnedGameIds(userId);

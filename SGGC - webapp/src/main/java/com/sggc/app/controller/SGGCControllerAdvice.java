@@ -21,10 +21,9 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
         final ApiError error = new ApiError(
                 currentApiVersion,
                 Integer.toString(HttpStatus.NOT_FOUND.value()),
-                "Request Not Found",
-                "request-exceptions",
-                "NonExistingRequestException",
-                "Request with username "+ex.getMessage()+" Not Found"
+                "User Has No Games",
+                "UserHasNoGamesException",
+                "User with Id: "+ex.getUserId()+" has no games associated with their account "
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }

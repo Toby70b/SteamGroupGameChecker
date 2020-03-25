@@ -2,14 +2,16 @@ import React from "react";
 import 'antd/dist/antd.css';
 import { Input, Button, Row, Card, Table, Popconfirm, Typography, Form } from 'antd';
 import WrappedHorizontalForm from "./WrappedHorizontalForm";
+import ErrorList from "./ErrorList";
 
 const { Search } = Input;
 const { Text } = Typography;
 
 
 
-
 class GroupGameSearchPanel extends React.Component {
+
+
     constructor() {
         super();
         this.columns = [
@@ -35,7 +37,9 @@ class GroupGameSearchPanel extends React.Component {
             dataSource: [
             ],
         }
+
     }
+
 
     collectSteamIds = () =>{
         var steamIds = [];
@@ -46,6 +50,7 @@ class GroupGameSearchPanel extends React.Component {
     }
 
     handleSearch = () =>{
+
         this.props.onSearch(this.collectSteamIds())
     }
 
@@ -81,6 +86,9 @@ class GroupGameSearchPanel extends React.Component {
             <Card title={<h2>Search for Common Games</h2>} >
                 <Row type="flex" justify="center" style={{marginBottom:16}}>
                     <Text level={2} type="danger">{this.props.errorMessage}</Text>
+                </Row>
+                <Row type="flex" justify="center" style={{marginBottom:16}}>
+                    <ErrorList errorsArr={this.props.errors}/>
                 </Row>
                 <div style={{marginBottom:16}}>
                     <WrappedHorizontalForm

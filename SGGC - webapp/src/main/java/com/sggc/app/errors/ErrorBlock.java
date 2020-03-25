@@ -14,11 +14,11 @@ public class ErrorBlock {
     private String message;
     private List<Error> errors;
 
-    public ErrorBlock(final String code, final String message, final String domain,
+    public ErrorBlock(final String code, final String message,
                       final String reason, final String errorMessage) {
         this.code = code;
         this.message = message;
-        this.errors = Arrays.asList(new Error(domain, reason, errorMessage));
+        this.errors = Arrays.asList(new Error(reason, errorMessage));
     }
 
     private ErrorBlock(final String code, final String message, final List<Error> errors) {
