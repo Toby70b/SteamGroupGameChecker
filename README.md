@@ -39,6 +39,8 @@ The UI is made with React with components from the ant design UI framework, all 
 
 - [x] Dockerize the components and provide some Kubernetes yaml files for deployments and services
 - [ ] Standardising and document the format of the errors returned from the API, for easier consuming
+- [ ] Logging to a file within the project, for easier debugging
+- [ ] Adding security features
 - [ ] More testing
 - [ ] Probably a lot of cleanup and refactoring 
 
