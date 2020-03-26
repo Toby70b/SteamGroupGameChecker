@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +36,10 @@ public class SGGCController {
     @CrossOrigin
     @PostMapping(value = "/")
     //TODO: validate request body
-    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@RequestBody Request request) {
+    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@Valid @RequestBody Request request) throws IOException, UserHasNoGamesException {
         List<String> userIds = request.getSteamIds();
         List<Integer> combinedGameIds = null;
-        try {
-            combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
-        } catch (IOException | UserHasNoGamesException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
-        }
+        combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
         List<Integer> combinedMultiplayerGameIds = removeNonMultiplayerGamesFromList(combinedGameIds);
         return new ResponseEntity<>(getCombinedGames(combinedMultiplayerGameIds), HttpStatus.OK);
     }

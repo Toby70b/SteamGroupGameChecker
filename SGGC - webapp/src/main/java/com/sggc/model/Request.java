@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
@@ -12,5 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Request {
     @NonNull
-    private List<String> steamIds;
+    @Size(min=2, message ="{com.sggc.lessThanTwoGameIds.message}")
+    private List<@Pattern(regexp = "^\\d{17}$", message = "{com.sggc.invalidSteamId.message}") String> steamIds;
 }
