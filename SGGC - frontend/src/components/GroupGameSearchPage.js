@@ -5,7 +5,8 @@ import GroupGameSearchResultsPanel from "./GroupGameSearchResultsPanel";
 
 const { Title } = Typography;
 const notEnoughIdsEnteredErrorMsg = "Please enter at least 2 Steam Id's"
-const fetchErrorMessage = "There was an error, please try again..."
+const fetchErrorMessage = "The following errors occured:"
+
 
 class GroupGameSearchPage extends React.Component {
     constructor() {
@@ -15,20 +16,28 @@ class GroupGameSearchPage extends React.Component {
             resultsDataSource: [],
             displayResults: false,
             resultsLoading: false,
-            errorMessage: ''
+            errorMessage: '',
+            errors:[]
         }
     }
 
-    handleErrors = (response) => {
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response;
+    addErrorsToErrorList = (error) =>{
+        var errors = []
+        error.errors.forEach(function(error) { errors.push(error.message); });
+        this.setState({
+            errors:[...errors]
+        });
     }
 
     onFetchError = (error) =>{
-        console.log(error);
+        this.addErrorsToErrorList(error.error);
         this.setState({displayResults:false, resultsLoading:false, errorMessage:fetchErrorMessage});
+    }
+
+    async fetchFromApi (url, options)  {
+        const response = await fetch(url,options);
+        const json = await response.json();
+        return response.ok ? json : Promise.reject(json);
     }
 
     handleSearch = (steamIds) => {
@@ -39,13 +48,9 @@ class GroupGameSearchPage extends React.Component {
                 headers: {'Content-Type': 'application/json;'},
                 body: JSON.stringify(data)
             }
-            this.setState({displayResults: true, resultsLoading: true, errorMessage: '',})
-            fetch('http://localhost:30001/api/sggc/', options)
-                .then(this.handleErrors)
-                .then(response => {
-                    return response.json()
-                })
-                .then((jsonResponse) => this.setState({resultsDataSource: jsonResponse, resultsLoading: false}))
+            this.setState({displayResults: true, resultsLoading: true, errorMessage: '',errors:[]})
+            this.fetchFromApi('http://localhost:30001/api/sggc/', options)
+                .then((jsonResponse) => {this.setState({resultsDataSource: jsonResponse, resultsLoading: false})})
                 .catch(error => this.onFetchError(error));
         }
         else {
@@ -64,7 +69,8 @@ class GroupGameSearchPage extends React.Component {
                      <Col xs={24} lg={12}>
                             <GroupGameSearchPanel
                             onSearch = {this.handleSearch}
-                            errorMessage ={this.state.errorMessage}>
+                            errorMessage ={this.state.errorMessage}
+                            errors={this.state.errors}>
                             </GroupGameSearchPanel>
                     </Col>
                 </Row>
