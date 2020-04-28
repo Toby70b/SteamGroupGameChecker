@@ -24,9 +24,6 @@ public class UserService {
     private final UserRepository userRepository;
     private static Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-    @NonNull
-    private final GameService gameService;
-
 
     public List<Integer> findUsersGameIdsById(String userId) throws IOException, UserHasNoGamesException {
         LOGGER.debug("Attempting to find user with id: " + userId);

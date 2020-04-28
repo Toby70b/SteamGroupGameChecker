@@ -69,7 +69,7 @@ public class GameService {
     }
 
     //TODO: move this to a cron job using amazon lambda or something
-    private List<Game> saveAllGamesToDB() throws IOException {
+    public List<Game> saveAllGamesToDB() throws IOException {
         //clear the repo
         gameRepository.deleteAll();
         List<Game> gameList = new ArrayList<>();
