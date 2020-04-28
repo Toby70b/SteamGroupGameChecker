@@ -26,10 +26,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RestControllerAdvice
 public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(SGGCControllerAdvice.class);
     @Value("${sggc.api.version}")
     private String currentApiVersion;
-
+    private static Logger LOGGER = LoggerFactory.getLogger(SGGCControllerAdvice.class);
     @ExceptionHandler(UserHasNoGamesException.class)
     public ResponseEntity<ApiError> handleUserHasNoGames(UserHasNoGamesException ex) {
 
@@ -38,7 +37,7 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
                 Integer.toString(HttpStatus.NOT_FOUND.value()),
                 "User Has No Games",
                 "UserHasNoGamesException",
-                "User with Id: " + ex.getUserId() + " has no games associated with their account, or doesn't exist "
+                "User with Id: "+ex.getUserId()+" has no games associated with their account, or doesn't exist "
         );
         LOGGER.error("ERROR:", ex);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
@@ -69,7 +68,7 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
         List<Error> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
 
-            errors.add(new Error("MethodArgumentNotValidException", error.getRejectedValue() + " " + error.getDefaultMessage()));
+            errors.add(  new Error("MethodArgumentNotValidException", error.getRejectedValue() + " " + error.getDefaultMessage()));
         }
         apiError.getError().setErrors(errors);
         LOGGER.error("ERROR:", ex);

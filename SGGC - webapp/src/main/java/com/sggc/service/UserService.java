@@ -1,7 +1,6 @@
 package com.sggc.service;
 
 import com.sggc.exception.UserHasNoGamesException;
-import com.sggc.model.Game;
 import com.sggc.model.User;
 import com.sggc.repository.UserRepository;
 import com.sggc.util.GsonParser;
@@ -20,9 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
-    private static final String GET_OWNED_GAMES_API_URI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=" + KEY + "&steamid=";
-    private static Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    private static final String GET_OWNED_GAMES_API_URI = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key="+KEY+"&steamid=";
+
     private final UserRepository userRepository;
+    private static Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
     @NonNull
     private final GameService gameService;
 
@@ -47,14 +48,7 @@ public class UserService {
         }
     }
 
-    public List<Game> getGamesAllUsersOwn(List<String> userIds) throws IOException, UserHasNoGamesException {
-        List<Integer> combinedGameIds = null;
-        combinedGameIds = getIdsOfGamesOwnedByAllUsers(userIds);
-        List<Integer> combinedMultiplayerGameIds = gameService.removeNonMultiplayerGamesFromList(combinedGameIds);
-        return gameService.getCombinedGames(combinedMultiplayerGameIds);
-    }
-
-    private List<Integer> getIdsOfGamesOwnedByAllUsers(List<String> userIds) throws IOException, UserHasNoGamesException {
+    public List<Integer> getIdsOfGamesOwnedByAllUsers(List<String> userIds) throws IOException, UserHasNoGamesException {
         //for each other id entered make a get call to the steam api to get users owned games then remove from the combined list
         //any that dont appear in the new users list
         List<Integer> combinedGameIds = new ArrayList<>();
@@ -71,7 +65,7 @@ public class UserService {
     private List<Integer> getUsersOwnedGameIds(String userId) throws IOException, UserHasNoGamesException {
         List<Integer> gameList;
         String gamesURI = GET_OWNED_GAMES_API_URI + userId;
-        LOGGER.debug("Contacting " + gamesURI + " to get owned games of user " + userId);
+        LOGGER.debug("Contacting "+gamesURI+" to get owned games of user "+userId);
         HttpRequestCreator requestCreator = new HttpRequestCreator(gamesURI);
         gameList = new GsonParser().parseUserGameList(requestCreator.getAll());
         return gameList;

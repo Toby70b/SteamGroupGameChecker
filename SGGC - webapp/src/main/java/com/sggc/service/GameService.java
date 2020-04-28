@@ -1,6 +1,9 @@
 package com.sggc.service;
 
+import com.sggc.controller.SGGCController;
+import com.sggc.exception.UserHasNoGamesException;
 import com.sggc.model.Game;
+import com.sggc.model.User;
 import com.sggc.repository.GameRepository;
 import com.sggc.util.GsonParser;
 import com.sggc.util.HttpRequestCreator;
@@ -20,19 +23,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GameService {
 
-    private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
-    private static final int MULTIPLAYER_ID = 1;
-    private static Logger LOGGER = LoggerFactory.getLogger(GameService.class);
     @NonNull
     private final GameRepository gameRepository;
     private GsonParser gsonParser = new GsonParser();
+    private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
     private HttpRequestCreator requestCreator = new HttpRequestCreator("");
+    private static Logger LOGGER = LoggerFactory.getLogger(GameService.class);
+    private static final int MULTIPLAYER_ID = 1;
 
-    public List<Integer> removeNonMultiplayerGamesFromList(List<Integer> combinedGameIds) {
-        combinedGameIds = combinedGameIds.stream().filter(
+    public List<Integer> removeNonMultiplayerGamesFromList(List<Integer> gameIds) {
+        gameIds = gameIds.stream().filter(
                 RuntimeWrappablePredicateMapper.wrap(this::isMultiplayer)
         ).collect(Collectors.toList());
-        return combinedGameIds;
+        return gameIds;
     }
 
     private boolean isMultiplayer(Integer gameId) throws IOException {
@@ -61,8 +64,8 @@ public class GameService {
         }
     }
 
-    public List<Game> getCombinedGames(List<Integer> gameIds) {
-        return gameIds.stream().map(gameRepository::findGameByAppid).collect(Collectors.toList());
+    public List<Game> getCommonGames(List<Integer> gameIds) {
+        return removeNonMultiplayerGamesFromList(gameIds).stream().map(gameRepository::findGameByAppid).collect(Collectors.toList());
     }
 
     //TODO: move this to a cron job using amazon lambda or something
