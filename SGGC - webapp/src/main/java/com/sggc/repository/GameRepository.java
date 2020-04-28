@@ -10,7 +10,7 @@ import java.util.List;
 public interface GameRepository extends MongoRepository<Game, String> {
 
     Game findGameByAppid(int appid);
-    
+
     @Override
     List<Game> findAll();
 }

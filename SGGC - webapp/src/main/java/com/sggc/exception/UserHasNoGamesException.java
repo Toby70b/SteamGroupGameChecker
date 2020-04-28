@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class UserHasNoGamesException extends Exception {
     private String userId;
+
     public UserHasNoGamesException() {
         super();
     }

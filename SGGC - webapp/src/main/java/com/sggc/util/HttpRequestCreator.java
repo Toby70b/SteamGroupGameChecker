@@ -32,14 +32,13 @@ public class HttpRequestCreator {
         HttpResponse response = null;
         try {
             response = client.execute(get);
-        }
-        catch (IOException e){
-            throw new IOException("Error communicating with the Steam API",e);
+        } catch (IOException e) {
+            throw new IOException("Error communicating with the Steam API", e);
         }
         try {
             return inputStreamToString(response.getEntity().getContent());
         } catch (IOException e) {
-            throw new IOException("Error parsing the response from the Steam API",e);
+            throw new IOException("Error parsing the response from the Steam API", e);
         }
     }
 
@@ -47,7 +46,7 @@ public class HttpRequestCreator {
         String line = "";
         StringBuilder total = new StringBuilder();
 
-        try(BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
             // Read response until the end
             while ((line = rd.readLine()) != null) {
                 total.append(line);

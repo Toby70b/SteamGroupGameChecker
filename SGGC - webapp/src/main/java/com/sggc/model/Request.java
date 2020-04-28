@@ -14,6 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Request {
     @NonNull
-    @Size(min=2, message ="{com.sggc.lessThanTwoGameIds.message}")
+    @Size(min = 2, message = "{com.sggc.lessThanTwoGameIds.message}")
     private List<@Pattern(regexp = "^\\d{17}$", message = "{com.sggc.invalidSteamId.message}") String> steamIds;
 }

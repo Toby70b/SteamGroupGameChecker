@@ -90,7 +90,7 @@ public class GsonParser {
             return JsonParser.parseString(stringToParse);
 
         } catch (JsonSyntaxException e) {
-            throw new IOException("Error when parsing response string into JSON object, this is likely due an invalid user id",e);
+            throw new IOException("Error when parsing response string into JSON object, this is likely due an invalid user id", e);
         }
     }
 }
