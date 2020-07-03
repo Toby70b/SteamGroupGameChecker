@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class UserService {
         }
     }
 
-    public List<Integer> getIdsOfGamesOwnedByAllUsers(List<String> userIds) throws IOException, UserHasNoGamesException {
+    public List<Integer> getIdsOfGamesOwnedByAllUsers(Set<String> userIds) throws IOException, UserHasNoGamesException {
         //for each other id entered make a get call to the steam api to get users owned games then remove from the combined list
         //any that dont appear in the new users list
         List<Integer> combinedGameIds = new ArrayList<>();
