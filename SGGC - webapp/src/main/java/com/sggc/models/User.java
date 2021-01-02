@@ -1,4 +1,4 @@
-package com.sggc.model;
+package com.sggc.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Id;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
@@ -20,6 +20,6 @@ public class User {
     private String id;
     @ElementCollection
     @NonNull
-    private List<Integer> ownedGameIds;
+    private Set<Integer> ownedGameIds;
 
 }

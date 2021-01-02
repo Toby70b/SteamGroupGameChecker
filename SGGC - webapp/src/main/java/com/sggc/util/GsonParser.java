@@ -5,21 +5,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.sggc.exception.UserHasNoGamesException;
-import com.sggc.model.Game;
+import com.sggc.exceptions.UserHasNoGamesException;
+import com.sggc.models.Game;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class GsonParser {
     private static final int MULTIPLAYER_ID = 1;
-    private List<Game> gameList;
-    private ArrayList<Integer> gameIdList;
+    private Set<Game> gameList;
+    private Set<Integer> gameIdList;
 
-    public List<Game> parseGameList(String stringToParse) {
+    public Set<Game> parseGameList(String stringToParse) {
         JsonElement jsonTree = JsonParser.parseString(stringToParse);
         JsonObject obj = jsonTree.getAsJsonObject();
         obj = obj.getAsJsonObject("applist");
@@ -27,7 +24,7 @@ public class GsonParser {
 
         Iterator<JsonElement> iterator = apps.getAsJsonArray().iterator();
 
-        gameList = new ArrayList();
+        gameList = new HashSet<>();
         while (iterator.hasNext()) {
             JsonElement element = iterator.next();
             Game game = new Game(element.getAsJsonObject().get("appid").getAsInt(), element.getAsJsonObject().get("name").getAsString());
@@ -36,7 +33,7 @@ public class GsonParser {
         return gameList;
     }
 
-    public List<Integer> parseUserGameList(String stringToParse) throws UserHasNoGamesException, IOException {
+    public Set<Integer> parseUserGameList(String stringToParse) throws UserHasNoGamesException, IOException {
         JsonElement jsonTree = parseResponseStringToJson(stringToParse);
 
         JsonObject obj = jsonTree.getAsJsonObject().getAsJsonObject("response");
@@ -49,7 +46,7 @@ public class GsonParser {
 
         Iterator<JsonElement> iterator = games.getAsJsonArray().iterator();
 
-        gameIdList = new ArrayList<Integer>();
+        gameList = new HashSet<>();
         while (iterator.hasNext()) {
             JsonElement element = iterator.next();
             gameIdList.add(element.getAsJsonObject().get("appid").getAsInt());

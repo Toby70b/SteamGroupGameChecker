@@ -1,4 +1,4 @@
-package com.sggc.model;
+package com.sggc.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 @Data

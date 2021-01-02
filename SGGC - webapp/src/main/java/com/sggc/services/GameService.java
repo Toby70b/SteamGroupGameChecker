@@ -1,13 +1,9 @@
-package com.sggc.service;
+package com.sggc.services;
 
-import com.sggc.controller.SGGCController;
-import com.sggc.exception.UserHasNoGamesException;
-import com.sggc.model.Game;
-import com.sggc.model.User;
-import com.sggc.repository.GameRepository;
+import com.sggc.models.Game;
+import com.sggc.repositories.GameRepository;
 import com.sggc.util.GsonParser;
 import com.sggc.util.HttpRequestCreator;
-import com.sggc.util.RuntimeWrappablePredicateMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,24 +24,31 @@ public class GameService {
     private GsonParser gsonParser = new GsonParser();
     private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
     private HttpRequestCreator requestCreator = new HttpRequestCreator("");
-    private static Logger LOGGER = LoggerFactory.getLogger(GameService.class);
+    private Logger logger = LoggerFactory.getLogger(GameService.class);
     private static final int MULTIPLAYER_ID = 1;
 
-    public List<Integer> removeNonMultiplayerGamesFromList(List<Integer> gameIds) {
+    public Set<Integer> removeNonMultiplayerGamesFromList(Set<Integer> gameIds) {
         gameIds = gameIds.stream().filter(
-                RuntimeWrappablePredicateMapper.wrap(this::isMultiplayer)
-        ).collect(Collectors.toList());
+                gameId -> {
+                    try {
+                        return isGameMultiplayer(gameId);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+        ).collect(Collectors.toSet());
         return gameIds;
     }
 
-    private boolean isMultiplayer(Integer gameId) throws IOException {
+    private boolean isGameMultiplayer(Integer gameId) throws IOException {
         Game game = gameRepository.findGameByAppid(gameId);
         if (game.getMultiplayer() != null) {
             return game.getMultiplayer();
         } else {
             //Make an api call for the gameId
             String URI = "http://store.steampowered.com/api/appdetails/?appids=" + gameId;
-            LOGGER.debug("Contacting " + URI + " to get details of game " + gameId);
+            logger.debug("Contacting " + URI + " to get details of game " + gameId);
             //Create the request
             HttpRequestCreator requestCreator = new HttpRequestCreator(URI);
             //Parse the response to get list of categories
@@ -64,15 +67,15 @@ public class GameService {
         }
     }
 
-    public List<Game> getCommonGames(List<Integer> gameIds) {
-        return removeNonMultiplayerGamesFromList(gameIds).stream().map(gameRepository::findGameByAppid).collect(Collectors.toList());
+    public Set<Game> getCommonGames(Set<Integer> gameIds) {
+        return removeNonMultiplayerGamesFromList(gameIds).stream().map(gameRepository::findGameByAppid).collect(Collectors.toSet());
     }
 
     //TODO: move this to a cron job using amazon lambda or something
-    public List<Game> saveAllGamesToDB() throws IOException {
+    public Set<Game> saveAllGamesToDB() throws IOException {
         //clear the repo
         gameRepository.deleteAll();
-        List<Game> gameList = new ArrayList<>();
+        Set<Game> gameList;
         String gamesURI = "https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=" + KEY;
         requestCreator.setURI(gamesURI);
         gameList = gsonParser.parseGameList(requestCreator.getAll());

@@ -1,10 +1,10 @@
-package com.sggc.controller;
+package com.sggc.controllers;
 
-import com.sggc.exception.UserHasNoGamesException;
-import com.sggc.model.Game;
-import com.sggc.model.Request;
-import com.sggc.service.GameService;
-import com.sggc.service.UserService;
+import com.sggc.exceptions.UserHasNoGamesException;
+import com.sggc.models.Game;
+import com.sggc.models.Request;
+import com.sggc.services.GameService;
+import com.sggc.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -25,10 +24,10 @@ public class SGGCController {
 
     @CrossOrigin
     @PostMapping(value = "/")
-    public ResponseEntity<List<Game>> getGamesAllUsersOwn(@Valid @RequestBody Request request) throws IOException, UserHasNoGamesException {
+    public ResponseEntity<Set<Game>> getGamesAllUsersOwn(@Valid @RequestBody Request request) throws IOException, UserHasNoGamesException {
         Set<String> userSteamIds = request.getSteamIds();
-        List<Integer> commonGameIds = userService.getIdsOfGamesOwnedByAllUsers(userSteamIds);
-        List<Game> commonGames = gameService.getCommonGames(commonGameIds);
+        Set<Integer> commonGameIds = userService.getIdsOfGamesOwnedByAllUsers(userSteamIds);
+        Set<Game> commonGames = gameService.getCommonGames(commonGameIds);
         return new ResponseEntity<>(commonGames, HttpStatus.OK);
     }
 

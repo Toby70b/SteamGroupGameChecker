@@ -1,4 +1,4 @@
-package com.sggc.exception;
+package com.sggc.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

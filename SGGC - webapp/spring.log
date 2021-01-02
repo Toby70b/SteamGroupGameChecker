@@ -63,7 +63,7 @@
 2020-04-28 18:31:58.258  INFO 7184 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2020-04-28 18:31:58.522 ERROR 7184 --- [http-nio-8080-exec-1] c.sggc.controller.SGGCControllerAdvice   : ERROR:
 
-org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<java.util.List<com.sggc.model.Game>> com.sggc.controller.SGGCController.getGamesAllUsersOwn(com.sggc.model.Request) throws java.io.IOException,com.sggc.exception.UserHasNoGamesException: [Field error in object 'request' on field 'steamIds[0]': rejected value [765611980452062090]; codes [Pattern.request.steamIds[0],Pattern.request.steamIds,Pattern.steamIds[0],Pattern.steamIds,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [request.steamIds[0],steamIds[0]]; arguments []; default message [steamIds[0]],[Ljavax.validation.constraints.Pattern$Flag;@7cf1d840,^\d{17}$]; default message [is not a valid Steam Id. A valid Steam Id contains 17 numbers only.]] 
+org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<java.util.List<com.sggc.models.Game>> com.sggc.controllers.SGGCController.getGamesAllUsersOwn(com.sggc.models.Request) throws java.io.IOException,com.sggc.exceptions.UserHasNoGamesException: [Field error in object 'request' on field 'steamIds[0]': rejected value [765611980452062090]; codes [Pattern.request.steamIds[0],Pattern.request.steamIds,Pattern.steamIds[0],Pattern.steamIds,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [request.steamIds[0],steamIds[0]]; arguments []; default message [steamIds[0]],[Ljavax.validation.constraints.Pattern$Flag;@7cf1d840,^\d{17}$]; default message [is not a valid Steam Id. A valid Steam Id contains 17 numbers only.]]
 	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:139) ~[spring-webmvc-5.2.3.RELEASE.jar:5.2.3.RELEASE]
 	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:121) ~[spring-web-5.2.3.RELEASE.jar:5.2.3.RELEASE]
 	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:167) ~[spring-web-5.2.3.RELEASE.jar:5.2.3.RELEASE]
@@ -113,18 +113,18 @@ org.springframework.web.bind.MethodArgumentNotValidException: Validation failed 
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.30.jar:9.0.30]
 	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
 
-2020-04-28 18:32:14.154 DEBUG 7184 --- [http-nio-8080-exec-2] com.sggc.service.UserService             : Attempting to find user with id: 76561198045206220
+2020-04-28 18:32:14.154 DEBUG 7184 --- [http-nio-8080-exec-2] com.sggc.services.UserService             : Attempting to find user with id: 76561198045206220
 2020-04-28 18:32:14.452  INFO 7184 --- [http-nio-8080-exec-2] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:4, serverValue:129613}] to sggc-cluster-shard-00-02-g1f6o.mongodb.net:27017
-2020-04-28 18:32:14.491 DEBUG 7184 --- [http-nio-8080-exec-2] com.sggc.service.UserService             : User with matching id hasnt been found in Mongo Repo, will request details from Steam API
-2020-04-28 18:32:14.492 DEBUG 7184 --- [http-nio-8080-exec-2] com.sggc.service.UserService             : Contacting https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=B88AF6D15A99EF5A4E01075EF63E5DF2&steamid=76561198045206220 to get owned games of user 76561198045206220
+2020-04-28 18:32:14.491 DEBUG 7184 --- [http-nio-8080-exec-2] com.sggc.services.UserService             : User with matching id hasnt been found in Mongo Repo, will request details from Steam API
+2020-04-28 18:32:14.492 DEBUG 7184 --- [http-nio-8080-exec-2] com.sggc.services.UserService             : Contacting https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=B88AF6D15A99EF5A4E01075EF63E5DF2&steamid=76561198045206220 to get owned games of user 76561198045206220
 2020-04-28 18:32:14.929 ERROR 7184 --- [http-nio-8080-exec-2] c.sggc.controller.SGGCControllerAdvice   : ERROR:
 
-com.sggc.exception.UserHasNoGamesException: null
+com.sggc.exceptions.UserHasNoGamesException: null
 	at com.sggc.util.GsonParser.parseUserGameList(GsonParser.java:47) ~[classes/:na]
-	at com.sggc.service.UserService.getUsersOwnedGameIds(UserService.java:67) ~[classes/:na]
-	at com.sggc.service.UserService.findUsersGameIdsById(UserService.java:37) ~[classes/:na]
-	at com.sggc.service.UserService.getIdsOfGamesOwnedByAllUsers(UserService.java:53) ~[classes/:na]
-	at com.sggc.controller.SGGCController.getGamesAllUsersOwn(SGGCController.java:36) ~[classes/:na]
+	at com.sggc.services.UserService.getUsersOwnedGameIds(UserService.java:67) ~[classes/:na]
+	at com.sggc.services.UserService.findUsersGameIdsById(UserService.java:37) ~[classes/:na]
+	at com.sggc.services.UserService.getIdsOfGamesOwnedByAllUsers(UserService.java:53) ~[classes/:na]
+	at com.sggc.controllers.SGGCController.getGamesAllUsersOwn(SGGCController.java:36) ~[classes/:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
@@ -176,19 +176,19 @@ com.sggc.exception.UserHasNoGamesException: null
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.30.jar:9.0.30]
 	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
 
-2020-04-28 18:32:30.411 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.service.UserService             : Attempting to find user with id: 76561198045206229
-2020-04-28 18:32:30.455 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.service.UserService             : User with matching id has been found in Mongo Repo
-2020-04-28 18:32:30.481 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.service.UserService             : Attempting to find user with id: 76561198045206228
-2020-04-28 18:32:30.502 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.service.UserService             : User with matching id hasnt been found in Mongo Repo, will request details from Steam API
-2020-04-28 18:32:30.502 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.service.UserService             : Contacting https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=B88AF6D15A99EF5A4E01075EF63E5DF2&steamid=76561198045206228 to get owned games of user 76561198045206228
+2020-04-28 18:32:30.411 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.services.UserService             : Attempting to find user with id: 76561198045206229
+2020-04-28 18:32:30.455 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.services.UserService             : User with matching id has been found in Mongo Repo
+2020-04-28 18:32:30.481 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.services.UserService             : Attempting to find user with id: 76561198045206228
+2020-04-28 18:32:30.502 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.services.UserService             : User with matching id hasnt been found in Mongo Repo, will request details from Steam API
+2020-04-28 18:32:30.502 DEBUG 7184 --- [http-nio-8080-exec-3] com.sggc.services.UserService             : Contacting https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=B88AF6D15A99EF5A4E01075EF63E5DF2&steamid=76561198045206228 to get owned games of user 76561198045206228
 2020-04-28 18:32:30.802 ERROR 7184 --- [http-nio-8080-exec-3] c.sggc.controller.SGGCControllerAdvice   : ERROR:
 
-com.sggc.exception.UserHasNoGamesException: null
+com.sggc.exceptions.UserHasNoGamesException: null
 	at com.sggc.util.GsonParser.parseUserGameList(GsonParser.java:47) ~[classes/:na]
-	at com.sggc.service.UserService.getUsersOwnedGameIds(UserService.java:67) ~[classes/:na]
-	at com.sggc.service.UserService.findUsersGameIdsById(UserService.java:37) ~[classes/:na]
-	at com.sggc.service.UserService.getIdsOfGamesOwnedByAllUsers(UserService.java:53) ~[classes/:na]
-	at com.sggc.controller.SGGCController.getGamesAllUsersOwn(SGGCController.java:36) ~[classes/:na]
+	at com.sggc.services.UserService.getUsersOwnedGameIds(UserService.java:67) ~[classes/:na]
+	at com.sggc.services.UserService.findUsersGameIdsById(UserService.java:37) ~[classes/:na]
+	at com.sggc.services.UserService.getIdsOfGamesOwnedByAllUsers(UserService.java:53) ~[classes/:na]
+	at com.sggc.controllers.SGGCController.getGamesAllUsersOwn(SGGCController.java:36) ~[classes/:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
@@ -240,7 +240,7 @@ com.sggc.exception.UserHasNoGamesException: null
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.30.jar:9.0.30]
 	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
 
-2020-04-28 18:32:54.087 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.service.UserService             : Attempting to find user with id: 76561198045206229
-2020-04-28 18:32:54.116 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.service.UserService             : User with matching id has been found in Mongo Repo
-2020-04-28 18:32:54.143 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.service.UserService             : Attempting to find user with id: 76561198014258751
-2020-04-28 18:32:54.166 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.service.UserService             : User with matching id has been found in Mongo Repo
+2020-04-28 18:32:54.087 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.services.UserService             : Attempting to find user with id: 76561198045206229
+2020-04-28 18:32:54.116 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.services.UserService             : User with matching id has been found in Mongo Repo
+2020-04-28 18:32:54.143 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.services.UserService             : Attempting to find user with id: 76561198014258751
+2020-04-28 18:32:54.166 DEBUG 7184 --- [http-nio-8080-exec-4] com.sggc.services.UserService             : User with matching id has been found in Mongo Repo

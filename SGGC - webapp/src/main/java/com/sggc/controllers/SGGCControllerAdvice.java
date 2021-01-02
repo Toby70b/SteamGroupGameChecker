@@ -1,9 +1,9 @@
-package com.sggc.controller;
+    package com.sggc.controllers;
 
 
 import com.sggc.errors.ApiError;
 import com.sggc.errors.Error;
-import com.sggc.exception.UserHasNoGamesException;
+import com.sggc.exceptions.UserHasNoGamesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,7 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
 
     @Value("${sggc.api.version}")
     private String currentApiVersion;
-    private static Logger LOGGER = LoggerFactory.getLogger(SGGCControllerAdvice.class);
+    private Logger logger = LoggerFactory.getLogger(SGGCControllerAdvice.class);
     @ExceptionHandler(UserHasNoGamesException.class)
     public ResponseEntity<ApiError> handleUserHasNoGames(UserHasNoGamesException ex) {
 
@@ -39,7 +39,7 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
                 "UserHasNoGamesException",
                 "User with Id: "+ex.getUserId()+" has no games associated with their account, or doesn't exist "
         );
-        LOGGER.error("ERROR:", ex);
+        logger.error("ERROR:", ex);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
@@ -52,7 +52,7 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
                 "IOException",
                 "Internal server error, error within code, please check the logs..."
         );
-        LOGGER.error("ERROR:", ex);
+        logger.error("ERROR:", ex);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -71,7 +71,7 @@ public class SGGCControllerAdvice extends ResponseEntityExceptionHandler {
             errors.add(  new Error("MethodArgumentNotValidException", error.getRejectedValue() + " " + error.getDefaultMessage()));
         }
         apiError.getError().setErrors(errors);
-        LOGGER.error("ERROR:", ex);
+        logger.error("ERROR:", ex);
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 }

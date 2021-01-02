@@ -1,13 +1,13 @@
 package com.sggc.errors;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Setter
-@Getter
+@Data
 public class ApiError {
 
     private final String apiVersion;
@@ -29,8 +29,6 @@ public class ApiError {
         );
     }
 
-    // utility method to return a map of serialized root attributes,
-    // see the last part of the guide for more details
     public Map<String, Object> toAttributeMap() {
         Map<String, Object> apiVersion = new HashMap<>();
         apiVersion.put("apiVersion", this.apiVersion);
