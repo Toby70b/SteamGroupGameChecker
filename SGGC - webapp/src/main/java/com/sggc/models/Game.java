@@ -19,7 +19,7 @@ public class Game {
     @Id
     private BigInteger id;
     @NonNull
-    private int appid;
+    private int appId;
     @NonNull
     private String name;
     @JsonIgnore

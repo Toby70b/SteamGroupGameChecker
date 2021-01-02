@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GameRepository extends MongoRepository<Game, String> {
-    Game findGameByAppid(int appid);
+    Game findGameByAppId(int appId);
 }

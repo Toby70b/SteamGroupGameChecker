@@ -42,7 +42,7 @@ public class GameService {
     }
 
     private boolean isGameMultiplayer(Integer gameId) throws IOException {
-        Game game = gameRepository.findGameByAppid(gameId);
+        Game game = gameRepository.findGameByAppId(gameId);
         if (game.getMultiplayer() != null) {
             return game.getMultiplayer();
         } else {
@@ -68,7 +68,7 @@ public class GameService {
     }
 
     public Set<Game> getCommonGames(Set<Integer> gameIds) {
-        return removeNonMultiplayerGamesFromList(gameIds).stream().map(gameRepository::findGameByAppid).collect(Collectors.toSet());
+        return removeNonMultiplayerGamesFromList(gameIds).stream().map(gameRepository::findGameByAppId).collect(Collectors.toSet());
     }
 
     //TODO: move this to a cron job using amazon lambda or something
@@ -92,6 +92,6 @@ public class GameService {
     }
 
     public Game findByAppid(int appid) {
-        return gameRepository.findGameByAppid(appid);
+        return gameRepository.findGameByAppId(appid);
     }
 }
