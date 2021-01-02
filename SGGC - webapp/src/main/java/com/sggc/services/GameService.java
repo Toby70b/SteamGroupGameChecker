@@ -1,5 +1,6 @@
 package com.sggc.services;
 
+import com.google.api.client.util.Value;
 import com.sggc.models.Game;
 import com.sggc.repositories.GameRepository;
 import com.sggc.util.GsonParser;
@@ -19,10 +20,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GameService {
 
-    @NonNull
     private final GameRepository gameRepository;
+
+    @Value("steamapi.key")
+    private static String KEY;
+
     private GsonParser gsonParser = new GsonParser();
-    private static final String KEY = "B88AF6D15A99EF5A4E01075EF63E5DF2";
     private HttpRequestCreator requestCreator = new HttpRequestCreator("");
     private Logger logger = LoggerFactory.getLogger(GameService.class);
     private static final int MULTIPLAYER_ID = 1;

@@ -25,9 +25,9 @@ public class SGGCController {
     @CrossOrigin
     @PostMapping(value = "/")
     public ResponseEntity<Set<Game>> getGamesAllUsersOwn(@Valid @RequestBody Request request) throws IOException, UserHasNoGamesException {
-        Set<String> userSteamIds = request.getSteamIds();
-        Set<Integer> commonGameIds = userService.getIdsOfGamesOwnedByAllUsers(userSteamIds);
-        Set<Game> commonGames = gameService.getCommonGames(commonGameIds);
+        Set<String> steamUserIds = request.getSteamIds();
+        Set<Integer> commonGameIdsBetweenUsers = userService.getIdsOfGamesOwnedByAllUsers(steamUserIds);
+        Set<Game> commonGames = gameService.getCommonGames(commonGameIdsBetweenUsers);
         return new ResponseEntity<>(commonGames, HttpStatus.OK);
     }
 

@@ -122,7 +122,7 @@ org.springframework.web.bind.MethodArgumentNotValidException: Validation failed 
 com.sggc.exceptions.UserHasNoGamesException: null
 	at com.sggc.util.GsonParser.parseUserGameList(GsonParser.java:47) ~[classes/:na]
 	at com.sggc.services.UserService.getUsersOwnedGameIds(UserService.java:67) ~[classes/:na]
-	at com.sggc.services.UserService.findUsersGameIdsById(UserService.java:37) ~[classes/:na]
+	at findUsersGameIdsByUserId(UserService.java:37) ~[classes/:na]
 	at com.sggc.services.UserService.getIdsOfGamesOwnedByAllUsers(UserService.java:53) ~[classes/:na]
 	at com.sggc.controllers.SGGCController.getGamesAllUsersOwn(SGGCController.java:36) ~[classes/:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
@@ -186,7 +186,7 @@ com.sggc.exceptions.UserHasNoGamesException: null
 com.sggc.exceptions.UserHasNoGamesException: null
 	at com.sggc.util.GsonParser.parseUserGameList(GsonParser.java:47) ~[classes/:na]
 	at com.sggc.services.UserService.getUsersOwnedGameIds(UserService.java:67) ~[classes/:na]
-	at com.sggc.services.UserService.findUsersGameIdsById(UserService.java:37) ~[classes/:na]
+	at findUsersGameIdsByUserId(UserService.java:37) ~[classes/:na]
 	at com.sggc.services.UserService.getIdsOfGamesOwnedByAllUsers(UserService.java:53) ~[classes/:na]
 	at com.sggc.controllers.SGGCController.getGamesAllUsersOwn(SGGCController.java:36) ~[classes/:na]
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
