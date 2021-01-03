@@ -1,6 +1,7 @@
 package com.sggc.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,15 +13,13 @@ import java.math.BigInteger;
 
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Document(collection = "Game")
 public class Game {
     @JsonIgnore
     @Id
     private BigInteger id;
-    @NonNull
-    private int appId;
-    @NonNull
+    @JsonProperty("appid")
+    private String appId;
     private String name;
     @JsonIgnore
     private Boolean multiplayer;

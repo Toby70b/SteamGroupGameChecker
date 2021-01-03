@@ -20,6 +20,6 @@ public class User {
     private String id;
     @ElementCollection
     @NonNull
-    private Set<Integer> ownedGameIds;
+    private Set<String> ownedGameIds;
 
 }

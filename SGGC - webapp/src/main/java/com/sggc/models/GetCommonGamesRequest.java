@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class Request {
+public class GetCommonGamesRequest {
     @NonNull
     @Size(min = 2, message = "{com.sggc.lessThanTwoGameIds.message}")
     private Set<@Pattern(regexp = "^\\d{17}$", message = "{com.sggc.invalidSteamId.message}") String> steamIds;

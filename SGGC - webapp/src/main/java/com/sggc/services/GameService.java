@@ -1,64 +1,69 @@
 package com.sggc.services;
 
-import com.google.api.client.util.Value;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.TreeTraversingParser;
+import com.google.gson.*;
 import com.sggc.models.Game;
+import com.sggc.models.GameCategory;
+import com.sggc.models.GameData;
+import com.sggc.models.GetAppListResponse;
 import com.sggc.repositories.GameRepository;
-import com.sggc.util.GsonParser;
-import com.sggc.util.HttpRequestCreator;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class GameService {
 
+    @Value("${steamapi.key}")
+    private String key;
+
+    @Value("${steamapi.endpoints.getAppListEndpoint}")
+    private String getAppListEndpoint;
+
+    @Value("${steamapi.endpoints.getAppDetailsEndpoint}")
+    private String getAppDetailsEndpoint;
+
+
     private final GameRepository gameRepository;
+    private final WebClient.Builder webClientBuilder;
 
-    @Value("steamapi.key")
-    private static String KEY;
-
-    private GsonParser gsonParser = new GsonParser();
-    private HttpRequestCreator requestCreator = new HttpRequestCreator("");
-    private Logger logger = LoggerFactory.getLogger(GameService.class);
+    private final Logger logger = LoggerFactory.getLogger(GameService.class);
     private static final int MULTIPLAYER_ID = 1;
 
-    public Set<Integer> removeNonMultiplayerGamesFromList(Set<Integer> gameIds) {
-        gameIds = gameIds.stream().filter(
-                gameId -> {
-                    try {
-                        return isGameMultiplayer(gameId);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return false;
-                    }
-                }
-        ).collect(Collectors.toSet());
+    public Set<String> removeNonMultiplayerGamesFromList(Set<String> gameIds) throws IOException {
+        Set<String> set = new HashSet<>();
+        for (String gameId : gameIds) {
+            if (isGameMultiplayer(gameId)) {
+                set.add(gameId);
+            }
+        }
+        gameIds = set;
         return gameIds;
     }
 
-    private boolean isGameMultiplayer(Integer gameId) throws IOException {
+    private boolean isGameMultiplayer(String gameId) throws IOException {
         Game game = gameRepository.findGameByAppId(gameId);
         if (game.getMultiplayer() != null) {
             return game.getMultiplayer();
         } else {
-            //Make an api call for the gameId
-            String URI = "http://store.steampowered.com/api/appdetails/?appids=" + gameId;
+            String URI = getAppDetailsEndpoint + "?appids=" + gameId;
             logger.debug("Contacting " + URI + " to get details of game " + gameId);
-            //Create the request
-            HttpRequestCreator requestCreator = new HttpRequestCreator(URI);
-            //Parse the response to get list of categories
-            List<Integer> categoryIds = new GsonParser().parseGameDetailsList(requestCreator.getAll());
+            String response = requestAppDetailsFromSteamApi(gameId);
+            GameData gameData = parseGameDetailsList(response);
             //Check for presence of multiplayer category
-            for (int i : categoryIds) {
-                if (i == MULTIPLAYER_ID) {
+            for (GameCategory category : gameData.getCategories()) {
+                if (category.getId() == MULTIPLAYER_ID) {
                     game.setMultiplayer(true);
                     gameRepository.save(game);
                     return true;
@@ -66,35 +71,72 @@ public class GameService {
             }
             game.setMultiplayer(false);
             gameRepository.save(game);
+
+
             return false;
         }
     }
 
-    public Set<Game> getCommonGames(Set<Integer> gameIds) {
+    public Set<Game> getCommonGames(Set<String> gameIds) throws IOException {
         return removeNonMultiplayerGamesFromList(gameIds).stream().map(gameRepository::findGameByAppId).collect(Collectors.toSet());
     }
 
-    //TODO: move this to a cron job using amazon lambda or something
-    public Set<Game> saveAllGamesToDB() throws IOException {
+    //TODO: move this to a cron job using aws lambda or something
+    public void saveAllGamesToDB() {
         //clear the repo
         gameRepository.deleteAll();
-        Set<Game> gameList;
-        String gamesURI = "https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=" + KEY;
-        requestCreator.setURI(gamesURI);
-        gameList = gsonParser.parseGameList(requestCreator.getAll());
+        GetAppListResponse response = requestAllSteamAppsFromSteamApi();
+        gameRepository.saveAll(response.getApplist().getApps());
+    }
 
-        for (Game game : gameList) {
-            gameRepository.save(game);
+    private GetAppListResponse requestAllSteamAppsFromSteamApi() {
+        return webClientBuilder.build().get()
+                .uri(getAppListEndpoint, uriBuilder -> uriBuilder
+                        .queryParam("key", key)
+                        .build())
+                .retrieve()
+                .bodyToMono(GetAppListResponse.class)
+                .block();
+    }
+
+    private String requestAppDetailsFromSteamApi(String appId) {
+        return webClientBuilder.build().get()
+                .uri(getAppDetailsEndpoint, uriBuilder -> uriBuilder
+                        .queryParam("appids", appId)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
+    public GameData parseGameDetailsList(String stringToParse) throws IOException {
+        Gson gson = new Gson();
+        JsonElement jsonTree = parseResponseStringToJson(stringToParse);
+        JsonObject obj = jsonTree.getAsJsonObject();
+        // The root of the response is a id of the game thus get the responses root value
+        String gameId = obj.keySet().iterator().next();
+        obj = obj.getAsJsonObject(gameId);
+        boolean responseSuccess = Boolean.parseBoolean(obj.get("success").toString());
+        /*
+        Sometimes steam no longer has info on the Game Id e.g. 33910 ARMA II, this is probably because the devs of the games
+        in question may have created a new steam product for the exact same game (demo perhaps?), so to avoid crashing if the game no longer
+        has any details, we'll pass it through as a multiplayer game, better than excluding games that could be multiplayer
+        */
+        if (!responseSuccess) {
+            return new GameData(Collections.singleton(new GameCategory(MULTIPLAYER_ID)));
         }
-        return gameList;
+        obj = obj.getAsJsonObject("data");
+        return gson.fromJson(obj.toString(), GameData.class);
     }
 
-    public Game save(Game game) {
-        gameRepository.save(game);
-        return game;
-    }
+    public JsonElement parseResponseStringToJson(String stringToParse) throws IOException {
+        try {
+            return JsonParser.parseString(stringToParse);
 
-    public Game findByAppid(int appid) {
-        return gameRepository.findGameByAppId(appid);
+        } catch (JsonSyntaxException e) {
+            throw new IOException("Error when parsing response string into JSON object, this is likely due an invalid user id", e);
+        }
     }
 }
+
+
