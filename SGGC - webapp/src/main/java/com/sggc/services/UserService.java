@@ -65,7 +65,7 @@ public class UserService {
     private Set<String> getUsersOwnedGameIds(String userId) throws UserHasNoGamesException {
         Set<String> gameIdList;
         GetOwnedGamesResponseDetails response = steamRequestHandler.requestUsersOwnedGamesFromSteamApi(userId).getResponse();
-        if(response.getGames().isEmpty()){
+        if(response.getGameCount()==0){
             throw new UserHasNoGamesException();
         }
         gameIdList = parseGameIdsFromResponse(response);

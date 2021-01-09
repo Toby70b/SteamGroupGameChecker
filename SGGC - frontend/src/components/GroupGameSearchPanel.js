@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import 'antd/dist/antd.css';
-import {Button, Row, Card, Table, Popconfirm, Typography, Checkbox } from 'antd';
+import {Button, Card, Checkbox, Popconfirm, Row, Table, Typography} from 'antd';
 import WrappedHorizontalForm from "./WrappedHorizontalForm";
 import ErrorList from "./ErrorList";
+
 const { Text } = Typography;
 
 
@@ -31,11 +32,10 @@ function GroupGameSearchPanel(props) {
     ]
 
     const collectFormData = () =>{
-        var request;
-        let steamids = getSteamIdsForRequest()
-        request.steamIds = steamids
+        let request = {};
+        request.steamIds = getSteamIdsForRequest()
         request.multiplayerOnly = multiplayerOnly;
-
+        return request;
     }
 
     const getSteamIdsForRequest = () =>{
@@ -71,7 +71,7 @@ function GroupGameSearchPanel(props) {
     };
 
     function onCheck(e) {
-        console.log(`checked = ${e.target.checked}`);
+        setMultiplayerOnly(e.target.checked)
     }
 
 
@@ -95,11 +95,12 @@ function GroupGameSearchPanel(props) {
                     >
                     </WrappedHorizontalForm>
                 </div>
-                <Checkbox onChange={onCheck}>
-                    Multiplayer only?
-                </Checkbox>
+
                 <Table dataSource={dataSource} columns={columns} rowKey={record => record.id} scroll={{y:300}} pagination={false} style={{marginBottom:18}} />
                 <Row type="flex" justify="end">
+                    <Checkbox onChange={onCheck}>
+                        Multiplayer only?
+                    </Checkbox>
                     <Button type="primary" icon="search" onClick={handleSearch}>
                         Search
                     </Button>
