@@ -49,13 +49,15 @@ class GroupGameSearchPage extends React.Component {
         return response.ok ? json : Promise.reject(json);
     }
 
-    handleSearch = (steamIds) => {
-        if (steamIds.length >= 2) {
-            var data = {"steamIds": steamIds}
+    handleSearch = (requestObj) => {
+        console.log(requestObj)
+        if (requestObj.steamIds.length >= 2) {
+            var data = JSON.stringify(requestObj)
+            console.log(data)
             var options = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json;'},
-                body: JSON.stringify(data)
+                body: data
             }
             this.setState({displayResults: true, resultsLoading: true, errorMessage: '', errors: []})
             this.fetchFromApi('http://localhost:8080/api/sggc/', options)

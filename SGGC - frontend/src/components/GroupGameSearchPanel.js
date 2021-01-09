@@ -9,6 +9,7 @@ const { Text } = Typography;
 
 function GroupGameSearchPanel(props) {
     const [dataSource, setDataSource] = useState([]);
+    const [multiplayerOnly, setMultiplayerOnly]  = useState(false);
 
     const columns =  [
         {
@@ -29,7 +30,15 @@ function GroupGameSearchPanel(props) {
         },
     ]
 
-    const collectSteamIds = () =>{
+    const collectFormData = () =>{
+        var request;
+        let steamids = getSteamIdsForRequest()
+        request.steamIds = steamids
+        request.multiplayerOnly = multiplayerOnly;
+
+    }
+
+    const getSteamIdsForRequest = () =>{
         var steamIds = [];
         dataSource.forEach(function (item) {
             steamIds.push(item.id);
@@ -38,7 +47,7 @@ function GroupGameSearchPanel(props) {
     }
 
     const handleSearch = () =>{
-        props.onSearch(collectSteamIds())
+        props.onSearch(collectFormData())
     }
 
     const handleDelete = id => {
@@ -61,6 +70,10 @@ function GroupGameSearchPanel(props) {
         callback();
     };
 
+    function onCheck(e) {
+        console.log(`checked = ${e.target.checked}`);
+    }
+
 
     return(
         <div>
@@ -82,7 +95,7 @@ function GroupGameSearchPanel(props) {
                     >
                     </WrappedHorizontalForm>
                 </div>
-                <Checkbox>
+                <Checkbox onChange={onCheck}>
                     Multiplayer only?
                 </Checkbox>
                 <Table dataSource={dataSource} columns={columns} rowKey={record => record.id} scroll={{y:300}} pagination={false} style={{marginBottom:18}} />

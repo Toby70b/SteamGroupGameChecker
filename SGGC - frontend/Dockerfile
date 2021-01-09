@@ -1,22 +1,20 @@
-#Dockerfile.dev:
-
-# base image
-FROM node:12.2.0-alpine
+# pull official base image
+FROM node:13.12.0-alpine
 
 # set working directory
-WORKDIR ./
+WORKDIR /app
 
-# add `//node_modules/.bin` to $PATH
-ENV PATH ./node_modules/.bin:$PATH
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-COPY package.json ./package.json
-
-#install dependencies:
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install --silent
-RUN npm install react-scripts@3.0.1 -g
+RUN npm install react-scripts@3.4.1 -g --silent
 
+# add app
+COPY . ./
 
-COPY . .
-
-# start
+# start app
 CMD ["npm", "start"]
