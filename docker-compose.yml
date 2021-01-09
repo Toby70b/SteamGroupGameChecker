@@ -9,9 +9,7 @@ services:
         - 8080:8080
 
     ui:
-      build:
-        context: ./SGGC - frontend
-        dockerfile: Dockerfile
+      image: tobypeel/steam_group_game_checker_ui
       depends_on:
         - api
       ports:
