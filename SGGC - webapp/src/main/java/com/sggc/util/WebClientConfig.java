@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-public class RequestCreator {
+public class WebClientConfig {
     @Bean
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder().exchangeStrategies(ExchangeStrategies.builder()
@@ -15,4 +15,5 @@ public class RequestCreator {
                         .maxInMemorySize(16 * 1024 * 1024))
                 .build());
     }
+
 }
