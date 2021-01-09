@@ -67,11 +67,11 @@ class GroupGameSearchPage extends React.Component {
 
                 <Row type="flex" justify="center" style={{marginBottom:16}}>
                      <Col xs={24} lg={12}>
-                            <GroupGameSearchPanel
+                        <GroupGameSearchPanel
                             onSearch = {this.handleSearch}
                             errorMessage ={this.state.errorMessage}
                             errors={this.state.errors}>
-                            </GroupGameSearchPanel>
+                        </GroupGameSearchPanel>
                     </Col>
                 </Row>
                 <Row type="flex" justify="center" style={{marginBottom:16}}>
