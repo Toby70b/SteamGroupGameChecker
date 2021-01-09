@@ -22,7 +22,7 @@ function GroupGameSearchPanel(props) {
             key: 'action',
             render: (text, record) =>
                 dataSource.length >= 1 ? (
-                    <Popconfirm title="Are you sure?" onConfirm={() => this.handleDelete(record.id)}>
+                    <Popconfirm title="Are you sure?" onConfirm={() => handleDelete(record.id)}>
                         <a>Delete</a>
                     </Popconfirm>
                 ) : null,
@@ -42,8 +42,8 @@ function GroupGameSearchPanel(props) {
     }
 
     const handleDelete = id => {
-        const dataSource = [...dataSource];
-        setDataSource(dataSource.filter(item => item.id !== id) );
+        let newDataSource = [...dataSource];
+        setDataSource(newDataSource.filter(item => item.id !== id) );
     };
 
     const handleAdd = (value) =>{

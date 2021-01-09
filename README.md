@@ -31,13 +31,16 @@ An example of the output of ther API is:
 ]
 ```
 
+There is also a swagger endpoint on the root of port 8080 if you want to view documentation in swagger format
+
 ## UI
 
 The UI is made with React with components from the ant design UI framework, all running on an node.js server. The UI allows the user to enter a number of steam id's and search for the common games between the users, there is some simple validation preventing the user from entering invalid steam id's. I've also added some Qol features such allowing the user to remove users from the search list. Once a search is performed a new panel will appear that, upon success of the fetch will display a scrollable table of the users common games, this table will have two columns; one in which the image of the game will be displayed (pulled from steamcdn-a.akamaihd.net) and the second which will display the games name, this doubles as a link to the game's Steam store page.
 
 ## Things to improve
 
-- [x] Dockerize the components and provide some Kubernetes yaml files for deployments and services
+I'd prefer not to spend too much more time on this project as I could likely spend weeks refactoring and upgrading this project, I prefer to set myself a time limit with these sort of one-offs. But if I was going to go back I improve the following:
+
 - [ ] Standardising and document the format of the errors returned from the API, for easier consuming
 - [ ] Logging to a file within the project, for easier debugging
 - [ ] Adding security features
@@ -47,4 +50,3 @@ The UI is made with React with components from the ant design UI framework, all 
 ## Thanks to
 
 https://steamcommunity.com/dev (without it this wouldn't exist, and I wouldn't have had the practice) 
-https://github.com/ramilsafnab1996/spring-boot-steam-demo (Provided me with knowledge of accessing the steam API)
