@@ -1,17 +1,16 @@
 package com.sggc.services;
 
-import com.sggc.models.*;
-import com.sggc.util.SteamRequestHandler;
-import org.springframework.beans.factory.annotation.Value;
 import com.sggc.exceptions.UserHasNoGamesException;
+import com.sggc.models.Game;
+import com.sggc.models.GetOwnedGamesResponseDetails;
+import com.sggc.models.User;
 import com.sggc.repositories.UserRepository;
+import com.sggc.util.SteamRequestHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
