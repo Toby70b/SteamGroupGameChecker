@@ -61,7 +61,6 @@ function GroupGameSearchPanel(props) {
     }
 
     const validateSteamId = (rule, value, callback) => {
-        const {form} = props;
         if (value) {
             if (value.length !== 17 || !/^\d+$/.test(value)) {
                 callback("Steam Id must be a 17 character number e.g. 76561198045206229");

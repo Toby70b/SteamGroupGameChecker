@@ -2,9 +2,7 @@ version: '3.3'
 
 services:
     api:
-      build:
-        context: ./SGGC - webapp
-        dockerfile: Dockerfile
+      image: tobypeel/steam_group_game_checker_api
       ports:
         - 8080:8080
 
