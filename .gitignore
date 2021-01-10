@@ -46,3 +46,5 @@ SGGC - frontend/node_modules
 *.log
 *.log
 SGGC - webapp/spring.log
+SGGC - webapp/spring.log
+*.gz

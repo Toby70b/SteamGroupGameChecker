@@ -1,13 +1,13 @@
 package com.sggc.errors;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class ErrorBlock {
 
     private String code;

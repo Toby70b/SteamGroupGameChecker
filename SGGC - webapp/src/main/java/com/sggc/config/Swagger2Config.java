@@ -25,9 +25,9 @@ public class Swagger2Config {
     }
 
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Spring Boot REST API")
-                .description("Interview REST API")
-                .contact(new Contact("Toby Peel", "", "tobypl407@gmail.com"))
+        return new ApiInfoBuilder().title("SGGC - REST API")
+                .description("REST API for the Steam Group Game Checker")
+                .contact(new Contact("Toby Peel", "", ""))
                 .build();
     }
 }

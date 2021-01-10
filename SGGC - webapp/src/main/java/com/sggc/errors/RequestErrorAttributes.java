@@ -9,7 +9,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class RequestErrorAttributes extends DefaultErrorAttributes {
 
-    private String currentApiVersion;
+    private final String currentApiVersion;
 
     @Override
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {

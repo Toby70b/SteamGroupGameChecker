@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Input, Button } from 'antd';
 
 
 function hasErrors(fieldsError) {
@@ -19,6 +19,7 @@ class HorizontalForm extends React.Component {
                 this.props.onSubmit(values.input)
             }
         });
+        this.props.form.resetFields()
     };
 
 
