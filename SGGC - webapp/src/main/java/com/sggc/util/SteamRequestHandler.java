@@ -5,20 +5,17 @@ import com.sggc.models.GameCategory;
 import com.sggc.models.GameData;
 import com.sggc.models.GetAppListResponse;
 import com.sggc.models.GetOwnedGamesResponse;
-import com.sggc.services.GameService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import static com.sggc.util.CommonUtil.MULTIPLAYER_ID;
+import static com.sggc.util.CommonUtil.*;
 
 @RequiredArgsConstructor
 @Component
@@ -26,25 +23,15 @@ public class SteamRequestHandler {
     private final Logger logger = LoggerFactory.getLogger(SteamRequestHandler.class);
 
     @Value("${steamapi.key}")
-    private String key;
-
-    @Value("${steamapi.endpoints.getAppListEndpoint}")
-    private String getAppListEndpoint;
-
-    @Value("${steamapi.endpoints.getAppDetailsEndpoint}")
-    private String getAppDetailsEndpoint;
-
-    @Value("${steamapi.endpoints.getOwnedGamesEndpoint}")
-    private String getOwnedGamesEndpoint;
-
+    private String steamApiKey;
     private final WebClient.Builder webClientBuilder;
 
     public GetOwnedGamesResponse requestUsersOwnedGamesFromSteamApi(String userId) {
-        String requestUri = getOwnedGamesEndpoint+"?key=" + key + "&steamid=" + userId;
+        String requestUri = GET_OWNED_GAMES_ENDPOINT+"?key=" + steamApiKey + "&steamid=" + userId;
         logger.debug("Contacting " + requestUri + " to get owned games of user " + userId);
         return webClientBuilder.build().get()
-                .uri(getOwnedGamesEndpoint, uriBuilder -> uriBuilder
-                        .queryParam("key", key)
+                .uri(GET_OWNED_GAMES_ENDPOINT, uriBuilder -> uriBuilder
+                        .queryParam("key", steamApiKey)
                         .queryParam("steamid", userId)
                         .build())
                 .retrieve()
@@ -54,8 +41,8 @@ public class SteamRequestHandler {
 
     public GetAppListResponse requestAllSteamAppsFromSteamApi() {
         return webClientBuilder.build().get()
-                .uri(getAppListEndpoint, uriBuilder -> uriBuilder
-                        .queryParam("key", key)
+                .uri(GET_APP_LIST_ENDPOINT, uriBuilder -> uriBuilder
+                        .queryParam("key", steamApiKey)
                         .build())
                 .retrieve()
                 .bodyToMono(GetAppListResponse.class)
@@ -63,11 +50,11 @@ public class SteamRequestHandler {
     }
 
     public String requestAppDetailsFromSteamApi(String appId) {
-        String URI = getAppDetailsEndpoint + "?appids=" + appId;
+        String URI = GET_APP_DETAILS_ENDPOINT + "?appids=" + appId;
         logger.debug("Contacting " + URI + " to get details of game " + appId);
 
         return webClientBuilder.build().get()
-                .uri(getAppDetailsEndpoint, uriBuilder -> uriBuilder
+                .uri(GET_APP_DETAILS_ENDPOINT, uriBuilder -> uriBuilder
                         .queryParam("appids", appId)
                         .build())
                 .retrieve()
