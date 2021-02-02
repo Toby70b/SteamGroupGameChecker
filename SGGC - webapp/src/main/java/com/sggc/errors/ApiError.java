@@ -11,20 +11,17 @@ import java.util.Map;
 public class ApiError {
 
     private final String apiVersion;
-    private ErrorBlock error;
+    private final String code;
+    private final String exception;
+    private final String errorMessage;
 
-    public ApiError(String apiVersion, String code, String message, String reason, String errorMessage) {
-        this.apiVersion = apiVersion;
-        this.error = new ErrorBlock(code, message, reason, errorMessage);
-    }
 
     public static ApiError fromDefaultAttributeMap(String apiVersion,
                                                    Map<String, Object> defaultErrorAttributes) {
         return new ApiError(
                 apiVersion,
                 ((Integer) defaultErrorAttributes.get("status")).toString(),
-                (String) defaultErrorAttributes.getOrDefault("message", "no message available"),
-                (String) defaultErrorAttributes.getOrDefault("error", "no reason available"),
+                (String) defaultErrorAttributes.getOrDefault("exception", "no message available"),
                 (String) defaultErrorAttributes.get("message")
         );
     }
@@ -32,7 +29,9 @@ public class ApiError {
     public Map<String, Object> toAttributeMap() {
         Map<String, Object> apiVersion = new HashMap<>();
         apiVersion.put("apiVersion", this.apiVersion);
-        apiVersion.put("error", getError());
+        apiVersion.put("code", this.apiVersion);
+        apiVersion.put("exception", this.apiVersion);
+        apiVersion.put("errorMessage", this.apiVersion);
         return apiVersion;
     }
 }
