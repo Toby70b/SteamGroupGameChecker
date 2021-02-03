@@ -29,9 +29,9 @@ public class ApiError {
     public Map<String, Object> toAttributeMap() {
         Map<String, Object> apiVersion = new HashMap<>();
         apiVersion.put("apiVersion", this.apiVersion);
-        apiVersion.put("code", this.apiVersion);
-        apiVersion.put("exception", this.apiVersion);
-        apiVersion.put("errorMessage", this.apiVersion);
+        apiVersion.put("code", "500");
+        apiVersion.put("exception", "Exception");
+        apiVersion.put("errorMessage", "Internal Server Error");
         return apiVersion;
     }
 }
