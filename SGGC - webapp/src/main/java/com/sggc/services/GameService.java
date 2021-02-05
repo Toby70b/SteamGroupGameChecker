@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,23 +26,13 @@ public class GameService {
     private final GameRepository gameRepository;
     private final SteamRequestHandler steamRequestHandler;
 
-    public Set<String> removeNonMultiplayerGamesFromList(Set<String> gameIds) throws IOException {
-        Set<String> set = new HashSet<>();
-        for (String gameId : gameIds) {
-            if (isGameMultiplayer(gameId)) {
-                set.add(gameId);
-            }
-        }
-        return set;
-    }
-
-    private boolean isGameMultiplayer(String gameId) throws IOException {
-        Game game = gameRepository.findGameByAppId(gameId);
+    private boolean isGameMultiplayer(Game game) throws IOException {
         if (game.getMultiplayer() != null) {
             return game.getMultiplayer();
         } else {
 
-            String response = steamRequestHandler.requestAppDetailsFromSteamApi(gameId);
+            String response = steamRequestHandler.requestAppDetailsFromSteamApi(game.getAppId());
+
             GameData parsedResponse = steamRequestHandler.parseGameDetailsList(response);
             //Check for presence of multiplayer category
             for (GameCategory category : parsedResponse.getCategories()) {
@@ -51,20 +44,26 @@ public class GameService {
             }
             game.setMultiplayer(false);
             gameRepository.save(game);
-
-
             return false;
         }
     }
 
-    public Set<Game> getCommonGames(Set<String> gameIds, boolean multiplayerOnly) throws IOException {
+    public Set<Game> getCommonGames(Set<String> gameIds, boolean multiplayerOnly) {
+        //Sometimes games have been removed from steam but still appear in users game libraries, thus remove nulls from the list.
+        Set<Game> commonGames =  gameIds.stream().map(gameRepository::findGameByAppId).filter(Objects::nonNull).collect(Collectors.toSet());
         if(multiplayerOnly){
-            gameIds = removeNonMultiplayerGamesFromList(gameIds);
+            commonGames = commonGames.stream().filter(game -> {
+                try {
+                    return isGameMultiplayer(game);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }).collect(Collectors.toSet());
         }
-        return gameIds.stream().map(gameRepository::findGameByAppId).collect(Collectors.toSet());
+        return commonGames;
     }
 
-    //TODO: move this to a cron job using aws lambda or something
+
     public void saveAllGamesToDB() {
         //clear the repo
         gameRepository.deleteAll();
