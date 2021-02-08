@@ -65,8 +65,6 @@ public class GameService {
 
 
     public void saveAllGamesToDB() {
-        //clear the repo
-        gameRepository.deleteAll();
         GetAppListResponse response = steamRequestHandler.requestAllSteamAppsFromSteamApi();
         gameRepository.saveAll(response.getApplist().getApps());
     }
