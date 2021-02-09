@@ -3,7 +3,6 @@ package com.sggc.services;
 import com.sggc.models.Game;
 import com.sggc.models.GameCategory;
 import com.sggc.models.GameData;
-import com.sggc.models.GetAppListResponse;
 import com.sggc.repositories.GameRepository;
 import com.sggc.util.SteamRequestHandler;
 import lombok.RequiredArgsConstructor;
