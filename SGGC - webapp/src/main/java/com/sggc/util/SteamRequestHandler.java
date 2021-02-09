@@ -39,16 +39,6 @@ public class SteamRequestHandler {
                 .block();
     }
 
-    public GetAppListResponse requestAllSteamAppsFromSteamApi() {
-        return webClientBuilder.build().get()
-                .uri(GET_APP_LIST_ENDPOINT, uriBuilder -> uriBuilder
-                        .queryParam("key", steamApiKey)
-                        .build())
-                .retrieve()
-                .bodyToMono(GetAppListResponse.class)
-                .block();
-    }
-
     public String requestAppDetailsFromSteamApi(String appId) {
         String URI = GET_APP_DETAILS_ENDPOINT + "?appids=" + appId;
         logger.debug("Contacting " + URI + " to get details of game " + appId);

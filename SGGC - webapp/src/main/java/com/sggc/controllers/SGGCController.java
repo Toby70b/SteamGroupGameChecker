@@ -30,13 +30,5 @@ public class SGGCController {
         return new ResponseEntity<>(commonGames, HttpStatus.OK);
     }
 
-    //Endpoint to populate db, Obvisoly not how it should be done in a real prod env but I'm okay for it to be in this project
-    @CrossOrigin
-    @GetMapping(value = "/populatedb/")
-    public ResponseEntity<String> populateDB(){
-        gameService.saveAllGamesToDB();
-        return new ResponseEntity<>("Database successfully updated", HttpStatus.OK);
-    }
-
 
 }

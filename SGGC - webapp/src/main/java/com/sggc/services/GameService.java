@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.sggc.util.CommonUtil.MULTIPLAYER_ID;
@@ -61,12 +58,6 @@ public class GameService {
             }).collect(Collectors.toSet());
         }
         return commonGames;
-    }
-
-
-    public void saveAllGamesToDB() {
-        GetAppListResponse response = steamRequestHandler.requestAllSteamAppsFromSteamApi();
-        gameRepository.saveAll(response.getApplist().getApps());
     }
 
 

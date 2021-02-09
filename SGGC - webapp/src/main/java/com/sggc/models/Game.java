@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 @Data
 @RequiredArgsConstructor
@@ -23,5 +24,7 @@ public class Game {
     private String name;
     @JsonIgnore
     private Boolean multiplayer;
+
+
 }
 
