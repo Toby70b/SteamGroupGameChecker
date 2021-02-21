@@ -7,7 +7,7 @@ services:
         - 8080:8080
 
     ui:
-      image: tobypeel/steam_group_game_checker_ui:latest
+      image: tobypeel/steam_group_game_checker_ui:prod
       depends_on:
         - api
       ports:

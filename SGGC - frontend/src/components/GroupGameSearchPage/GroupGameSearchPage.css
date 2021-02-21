@@ -1,0 +1,19 @@
+.title{
+    background-color: #ffffff;
+    margin: 20px;
+    border-radius: 30px;
+    border: 5px solid #1C6EA4;
+    padding: 10px;
+}
+
+.icon{
+    font-size: 2.5em;
+}
+
+.row{
+    margin-bottom: 16px
+}
+
+.smallPadding{
+    padding: 10px;
+}
