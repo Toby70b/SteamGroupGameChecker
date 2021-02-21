@@ -2,12 +2,12 @@ version: '3.3'
 
 services:
     api:
-      image: tobypeel/steam_group_game_checker_api:latest
+      image: tobypeel/steam_group_game_checker_api:prod
       ports:
         - 8080:8080
 
     ui:
-      image: tobypeel/steam_group_game_checker_ui:latest
+      image: tobypeel/steam_group_game_checker_ui:prod
       depends_on:
         - api
       ports:
