@@ -27,7 +27,7 @@ public class GameService {
             return game.getMultiplayer();
         } else {
 
-            String response = steamRequestHandler.requestAppDetailsFromSteamApi(game.getAppId());
+            String response = steamRequestHandler.requestAppDetailsFromSteamApi(game.getAppid());
 
             GameData parsedResponse = steamRequestHandler.parseGameDetailsList(response);
             //Check for presence of multiplayer category
@@ -46,7 +46,7 @@ public class GameService {
 
     public Set<Game> getCommonGames(Set<String> gameIds, boolean multiplayerOnly) {
         //Sometimes games have been removed from steam but still appear in users game libraries, thus remove nulls from the list.
-        Set<Game> commonGames =  gameIds.stream().map(gameRepository::findGameByAppId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Set<Game> commonGames =  gameIds.stream().map(gameRepository::findGameByAppid).filter(Objects::nonNull).collect(Collectors.toSet());
         if(multiplayerOnly){
             commonGames = commonGames.stream().filter(game -> {
                 try {
