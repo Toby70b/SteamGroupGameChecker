@@ -1,13 +1,8 @@
 import React from 'react';
-import './App.css';
-
-import GroupGameSearchPage from "./components/GroupGameSearchPage";
-
-
-
+import GroupGameSearchPage from "./components/GroupGameSearchPage/GroupGameSearchPage";
 function App() {
   return (
-      <GroupGameSearchPage></GroupGameSearchPage>
+        <GroupGameSearchPage/>
   );
 }
 
