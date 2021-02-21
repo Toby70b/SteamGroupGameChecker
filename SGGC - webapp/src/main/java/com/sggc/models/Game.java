@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigInteger;
 import java.util.Objects;
@@ -20,7 +21,7 @@ public class Game {
     @Id
     private BigInteger id;
     @JsonProperty("appid")
-    private String appId;
+    private String appid;
     private String name;
     @JsonIgnore
     private Boolean multiplayer;

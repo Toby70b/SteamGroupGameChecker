@@ -75,7 +75,7 @@ public class UserService {
     private Set<String> parseGameIdsFromResponse(GetOwnedGamesResponseDetails response) {
         return response.getGames()
                 .stream()
-                .map(Game::getAppId)
+                .map(Game::getAppid)
                 .collect(Collectors.toSet());
     }
 }

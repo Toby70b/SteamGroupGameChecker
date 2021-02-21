@@ -7,5 +7,5 @@ RUN mvn clean package -Dmaven.test.skip=true
 
 FROM openjdk:8-jdk-alpine
 WORKDIR /app
-COPY --from=MAVEN_BUILD /build/target/demo-0.0.1-SNAPSHOT.jar /app/
-ENTRYPOINT ["java","-jar","demo-0.0.1-SNAPSHOT.jar"]
+COPY --from=MAVEN_BUILD /build/target/sggcws-1.0-SNAPSHOT.jar /app/
+ENTRYPOINT ["java","-jar","sggcws-1.0-SNAPSHOT.jar"]
